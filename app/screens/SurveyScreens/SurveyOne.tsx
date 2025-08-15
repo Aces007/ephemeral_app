@@ -18,7 +18,7 @@ const SurveyOne = () => {
                 <View style={styles.surveyOneContentBottom}>
                     <Text style={styles.surveyTagline}>Calm and Peace within Moments</Text>
                     <TouchableOpacity style={styles.forwardBtn}>
-                        <AntDesign name='arrowright' size={35} />
+                        <AntDesign name='arrowright' size={35}  color="#2A333D" />
                     </TouchableOpacity>
                 </View>
             </View>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     surveyOneCont: {
         flexGrow: 1,
         padding: 20,
-        backgroundColor: "#1A222B"
+        backgroundColor: "#101B29"
     },
     surveyOneContent: {
         flex: 1,
