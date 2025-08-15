@@ -1,10 +1,9 @@
 import { PlayfairDisplay_400Regular, PlayfairDisplay_700Bold, useFonts } from '@expo-google-fonts/playfair-display';
-import { useEffect, useState } from 'react';
-import { ActivityIndicator, Image, StyleSheet, Text, View } from "react-native";
+import { router } from 'expo-router';
+import { useEffect } from 'react';
+import { Image, StyleSheet, Text, View } from "react-native";
 
 const Splash = () => {
-  const [showLoader, setShowLoader] = useState(true);
-
   let [fontsLoaded] = useFonts({
     PlayfairDisplay_400Regular,
     PlayfairDisplay_700Bold,
@@ -12,21 +11,13 @@ const Splash = () => {
 
   useEffect(() => {
     if (fontsLoaded) {
-      const Timer = setTimeout(() => {
-        setShowLoader(false);
-      }, 2000)
+      const timer = setTimeout(() => {
+        router.replace("./screens/SurveyScreens/SurveyOne");
+      }, 5000)
 
-      return () => clearTimeout(Timer);
+      return () => clearTimeout(timer);
     }
   }, [fontsLoaded])
-
-  if (showLoader) {
-    return (
-      <View style={styles.loadCont}>
-        <ActivityIndicator size="large" color="fff" />
-      </View>
-    );
-  }
 
     return (
         <View style={styles.splashCont}>
@@ -39,17 +30,9 @@ const Splash = () => {
 }
 
 const styles = StyleSheet.create({
-  loadCont: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: "#1A222B",
-  },
   splashCont: {
     flexGrow: 1,
     padding: 20,
-    borderWidth: 2,
-    borderColor: 'lime',
     backgroundColor: "#1A222B"
   },
   splashContent: {
@@ -57,8 +40,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 10,
-    borderWidth: 2,
-    borderColor: 'red',
   },
   splashBrand: {
     fontFamily: 'PlayfairDisplay_700Bold',
