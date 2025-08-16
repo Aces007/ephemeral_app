@@ -1,9 +1,13 @@
 import { Roboto_400Regular, Roboto_500Medium, useFonts } from '@expo-google-fonts/roboto';
 import { AntDesign } from '@expo/vector-icons';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { router } from 'expo-router';
+import React, { useState } from 'react';
+import { ActivityIndicator, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 
 const SurveyOne = () => {
+    const [isLoading, setIsLoading] = useState(false);
+
     let [fontsLoaded] = useFonts({
         Roboto_400Regular,
         Roboto_500Medium,
@@ -17,8 +21,20 @@ const SurveyOne = () => {
                 <Image source={require('../../../assets/images/misc/medGraphic.png')} style={styles.medGraphic}/>
                 <View style={styles.surveyOneContentBottom}>
                     <Text style={styles.surveyTagline}>Calm and Peace within Moments</Text>
-                    <TouchableOpacity style={styles.forwardBtn}>
-                        <AntDesign name='arrowright' size={35}  color="#2A333D" />
+                    <TouchableOpacity style={styles.forwardBtn} 
+                        onPress={() => {
+                            setIsLoading(true); // Initialize the loading for the Survey screen
+                            setTimeout(() => {
+                            router.replace("./screens/SurveyScreens/SurveyTwo")
+                            }, 2000); // Wait 2 secs
+                        }}
+                        disabled={isLoading} // Then disable condition after.
+                        >
+                        {isLoading ? (
+                            <ActivityIndicator size="large" color="#2A333D" />
+                        ):(
+                            <AntDesign name='arrowright' size={35}  color="#2A333D" />
+                        )}  
                     </TouchableOpacity>
                 </View>
             </View>
