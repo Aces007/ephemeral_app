@@ -25,7 +25,7 @@ const SurveyOne = () => {
                         onPress={() => {
                             setIsLoading(true); // Initialize the loading for the Survey screen
                             setTimeout(() => {
-                            router.replace("./screens/SurveyScreens/SurveyTwo")
+                            router.replace("/screens/SurveyScreens/SurveyTwo")
                             }, 2000); // Wait 2 secs
                         }}
                         disabled={isLoading} // Then disable condition after.

@@ -1,12 +1,23 @@
+import { Inter_500Medium } from '@expo-google-fonts/inter';
+import { Roboto_400Regular, Roboto_500Medium, Roboto_700Bold, useFonts } from '@expo-google-fonts/roboto';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Animated, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 
 const SurveyTwo = () => {
     const [step, setStep] = useState(1);
     const [otherInput, setOtherInput] = useState("");
     const [selected, setSelected] = useState("");
+    const [name, setName] = useState("");
     const fadeAnim = useRef(new Animated.Value(0)).current;
+
+    let [fontsLoaded] = useFonts({
+        Roboto_400Regular,
+        Roboto_500Medium,
+        Roboto_700Bold,
+        Inter_500Medium,
+    })
+
 
     useEffect(() => {
         Animated.timing(fadeAnim, {
@@ -16,7 +27,7 @@ const SurveyTwo = () => {
         }).start();
     }, [step]);
 
-    const handleOptionPress = (option) => {
+    const handleOptionPress = (option: string) => {
         setSelected(option)
         if (option === "Other") {
             return;
@@ -33,61 +44,96 @@ const SurveyTwo = () => {
         <View style={styles.surveyTwoCont}>
             <Animated.View style={[styles.surveyTwoContent, {opacity: fadeAnim, width: "100%"}]}>
                 {step === 1 && (
-                    <>
-                        <Text>What brings you here today?</Text>
-                        <SurveyButton text="I feel stressed or overwhelmed" onPress={handleOptionPress("Stress")} />
-                        <SurveyButton text="I want to improve my sleep" onPress={handleOptionPress("Sleep")} />
-                        <SurveyButton text="I want to focus better" onPress={handleOptionPress("Focus")} />
-                        <SurveyButton text="I want to explore mindfulness" onPress={handleOptionPress("Mindfulness")} />
-                        <SurveyButton text="Other" onPress={() => handleOptionPress("Other")} />
+                    <View style={styles.surveyCont}>
+                        <Text style={styles.surveyHeaders}>What brings you here today?</Text>
+                        <View style={styles.surveyContent}>
+                            <SurveyButton text="I feel stressed or overwhelmed" onPress={() => handleOptionPress("Stress")} />
+                            <SurveyButton text="I want to improve my sleep" onPress={() => handleOptionPress("Sleep")} />
+                            <SurveyButton text="I want to focus better" onPress={() => handleOptionPress("Focus")} />
+                            <SurveyButton text="I want to explore mindfulness" onPress={() => handleOptionPress("Mindfulness")} />
+                            <SurveyButton text="Other" onPress={() => handleOptionPress("Other")} />
+                        </View>
 
 
                         {/* With Other Chosen, a TextInput appears */}
                         {selected === "Other" && (
-                            <>
+                            <View style={styles.otherTextInputCont}>
                                 <TextInput 
                                     placeholder="What's the other reason"
+                                    placeholderTextColor="white"
                                     value={otherInput}
                                     onChangeText={setOtherInput}
+                                    style={styles.otherTextInput}
                                 />
-                                <SurveyButton text="Continue" onPress={nextStep}/>
-                            </>
+                                <SurveyButton text="Proceed" onPress={nextStep}/>
+                            </View>
                         )}
-                    </>
+                    </View>
                 )}
 
                 {step === 2 && (
-                    <>
-                        <Text>How much time can you commit daily?</Text>
-                        <SurveyButton text="I feel stressed or overwhelmed" onPress={nextStep} />
-                        <SurveyButton text="I want to improve my sleep" onPress={nextStep} />
-                        <SurveyButton text="I want to focus better" onPress={nextStep} />
-                        <SurveyButton text="I want to explore mindfulness" onPress={nextStep} />
-                        <SurveyButton text="Other" onPress={nextStep} />
-                    </>
+                    <View style={styles.surveyCont}>
+                        <Text style={styles.surveyHeaders}>How much time can you commit daily?</Text>
+                        <View style={styles.surveyContent}>
+                            <SurveyButton text="Less than 5 minutes" onPress={nextStep} />
+                            <SurveyButton text="5-10 minutes" onPress={nextStep} />
+                            <SurveyButton text="10-20 minutes" onPress={nextStep} />
+                            <SurveyButton text="Over 20 minutes" onPress={nextStep} />
+                            <SurveyButton text="Not sure yet" onPress={nextStep} />
+                        </View>
+                    </View>
                 )}
 
                 {step === 3 && (
                     <>
                         <Image source={require('../../../assets/images/misc/medGraphic2.png')} style={styles.medGraphic2}/>
-                        <Text>What should we call you?</Text>
+                        <Text style={styles.surveyHeaders}>What should we call you?</Text>
                         <TextInput
                             placeholder="Give us a name"
-                            placeholderTextColor="#666"
+                            placeholderTextColor="white"
+                            value={name}
+                            style={styles.surveyNameInput}
+                            onChangeText={setName}
                         />
                         <SurveyButton text="Proceed" onPress={nextStep}/>
+                    </>
+                )}
+
+                {step === 4 && (
+                    <>
+                        <View style={styles.surveyGreetingCont}>
+                            <View style={styles.surveyGreetingContent}>
+                                <ImageBackground source={require('../../../assets/images/misc/medGraphic3.png')} style={styles.greetingBGCont}>
+                                    <Text style={styles.greetingHeaders}>Welcome {name}</Text>
+                                    <Text style={styles.greetingSubHeaders}>What do you want to do?</Text>
+                                </ImageBackground>
+                            </View>
+
+                            <TouchableOpacity style={[styles.greetingBtnsCont, { backgroundColor: '#A994E9' }]}>
+                                <Text style={styles.greetingBtnsTxt}>Create your profile</Text>
+                            </TouchableOpacity>
+                            
+                            <TouchableOpacity style={[styles.greetingBtnsCont, { backgroundColor: '#6BD6CF' }]}>
+                                <Text style={styles.greetingBtnsTxt}>Explore</Text>
+                            </TouchableOpacity>
+                        </View>
                     </>
                 )}
             </Animated.View>
 
         </View>
-    )
+    );
+};
+
+type SurveyButtonProps = {
+    text: string;
+    onPress: () => void;
 }
 
-function SurveyButton({ text, onPress }) {
+function SurveyButton({ text, onPress }: SurveyButtonProps ) {
     return (
-        <TouchableOpacity onPress={onPress}>
-            <Text>
+        <TouchableOpacity onPress={onPress} style={styles.surveyButtons} >
+            <Text style={styles.surveyButtonsTxt}>
                 {text}
             </Text>
         </TouchableOpacity>
@@ -106,6 +152,111 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         gap: 30,
+    },
+    medGraphic2: {
+        width: 350,
+        height: 350,
+    },
+    surveyCont: {   
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 40,
+    },
+    surveyContent: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 20,
+    },
+    surveyHeaders: {
+        fontFamily: 'Roboto_700Bold',
+        color: 'white',
+        fontSize: 26,
+        textAlign: 'center',
+    },
+    surveyButtons: {
+        backgroundColor: '#A994E9',
+        width: '100%',
+        paddingBlock: 10,
+        paddingInline: 10,
+        borderRadius: 16,
+    },
+    surveyButtonsTxt: {
+        fontFamily: 'Roboto_500Medium',
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 18,
+    },
+    otherTextInputCont: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 10,
+    },
+    otherTextInput: {
+        backgroundColor: '#A994E9',
+        width: 300,
+        textAlign: 'center',
+        borderRadius: 16,
+        fontFamily: 'Roboto_400Regular',
+        color: 'white',
+        fontSize: 18,
+    },
+    surveyNameInput: {
+        backgroundColor: '#A994E9',
+        width: 300,
+        textAlign: 'center',
+        borderRadius: 16,
+        fontFamily: 'Roboto_400Regular',
+        color: 'white',
+        fontSize: 18,
+    },
+    surveyGreetingCont: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 30,
+    },
+    surveyGreetingContent: {
+        backgroundColor: '#1C262F',
+        borderRadius: 50,
+    },
+    greetingBGCont: {
+        width: 400,
+        height: 450,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',    
+        justifyContent: 'center',
+        gap: 88,
+        padding: 40,
+        opacity: 0.7
+    },
+    greetingHeaders: {
+        fontFamily: 'Roboto_700Bold',
+        color: 'white',
+        fontSize: 56,
+        textAlign: 'center',
+    },
+    greetingSubHeaders: {
+        fontFamily: 'Roboto_400Regular',
+        color: 'white',
+        fontSize: 25,
+    },
+    greetingBtnsCont: {
+        width: 300,
+        alignItems: 'center',
+        padding: 20,
+        borderRadius: 10,
+    },
+    greetingBtnsTxt: {
+        fontFamily: 'Inter_500Medium',
+        textTransform: 'uppercase',
+        color: 'white',
+        fontSize: 18,
     },
 })
 
