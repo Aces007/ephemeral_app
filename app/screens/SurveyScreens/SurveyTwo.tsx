@@ -103,7 +103,7 @@ const SurveyTwo = () => {
                     <>
                         <View style={styles.surveyGreetingCont}>
                             <View style={styles.surveyGreetingContent}>
-                                <ImageBackground source={require('../../../assets/images/misc/medGraphic3.png')} style={styles.greetingBGCont}>
+                                <ImageBackground source={require('../../../assets/images/misc/medGraphic3.png')} style={styles.greetingBGCont} imageStyle={{ opacity: 0.5 }}>
                                     <Text style={styles.greetingHeaders}>Welcome {name}</Text>
                                     <Text style={styles.greetingSubHeaders}>What do you want to do?</Text>
                                 </ImageBackground>
@@ -233,7 +233,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 88,
         padding: 40,
-        opacity: 0.7
     },
     greetingHeaders: {
         fontFamily: 'Roboto_700Bold',
