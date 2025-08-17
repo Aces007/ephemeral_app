@@ -1,7 +1,9 @@
 import { Inter_500Medium } from '@expo-google-fonts/inter';
 import { Roboto_400Regular, Roboto_500Medium, Roboto_700Bold, useFonts } from '@expo-google-fonts/roboto';
+import { AntDesign } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Animated, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 
 const SurveyTwo = () => {
@@ -10,6 +12,7 @@ const SurveyTwo = () => {
     const [selected, setSelected] = useState("");
     const [name, setName] = useState("");
     const fadeAnim = useRef(new Animated.Value(0)).current;
+    const [isLoading, setIsLoading] = useState(false);
 
     let [fontsLoaded] = useFonts({
         Roboto_400Regular,
@@ -44,6 +47,29 @@ const SurveyTwo = () => {
         <View style={styles.surveyTwoCont}>
             <Animated.View style={[styles.surveyTwoContent, {opacity: fadeAnim, width: "100%"}]}>
                 {step === 1 && (
+                    <View style={styles.surveyOneCont}>
+                        <View style={styles.surveyOneContent}>
+                            <Image source={require('../../../assets/images/misc/medGraphic.png')} style={styles.medGraphic}/>
+                            <View style={styles.surveyOneContentBottom}>
+                                <Text style={styles.surveyTagline}>Calm and Peace within Moments</Text>
+                                <TouchableOpacity style={styles.forwardBtn} 
+                                    onPress={() => {
+                                        setIsLoading(true); // Initialize the loading for the Survey screen
+                                        setTimeout(() => {nextStep(); setIsLoading(false);},  2000); // Wait 2 secs
+                                    }}
+                                    disabled={isLoading} // Then disable condition after.
+                                    >
+                                        {isLoading ? (
+                                            <ActivityIndicator size="large" color="#2A333D" />
+                                        ):(
+                                            <AntDesign name='arrowright' size={35}  color="#2A333D" />
+                                        )}  
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                )}
+                {step === 2 && (
                     <View style={styles.surveyCont}>
                         <Text style={styles.surveyHeaders}>What brings you here today?</Text>
                         <View style={styles.surveyContent}>
@@ -71,7 +97,7 @@ const SurveyTwo = () => {
                     </View>
                 )}
 
-                {step === 2 && (
+                {step === 3 && (
                     <View style={styles.surveyCont}>
                         <Text style={styles.surveyHeaders}>How much time can you commit daily?</Text>
                         <View style={styles.surveyContent}>
@@ -84,7 +110,7 @@ const SurveyTwo = () => {
                     </View>
                 )}
 
-                {step === 3 && (
+                {step === 4 && (
                     <>
                         <Image source={require('../../../assets/images/misc/medGraphic2.png')} style={styles.medGraphic2}/>
                         <Text style={styles.surveyHeaders}>What should we call you?</Text>
@@ -99,7 +125,7 @@ const SurveyTwo = () => {
                     </>
                 )}
 
-                {step === 4 && (
+                {step === 5 && (
                     <>
                         <View style={styles.surveyGreetingCont}>
                             <View style={styles.surveyGreetingContent}>
@@ -113,8 +139,22 @@ const SurveyTwo = () => {
                                 <Text style={styles.greetingBtnsTxt}>Create your profile</Text>
                             </TouchableOpacity>
                             
-                            <TouchableOpacity style={[styles.greetingBtnsCont, { backgroundColor: '#6BD6CF' }]}>
-                                <Text style={styles.greetingBtnsTxt}>Explore</Text>
+                            
+                            <TouchableOpacity style={[styles.greetingBtnsCont, { backgroundColor: '#6BD6CF' }]}
+                                onPress={() => {
+                                    setIsLoading(true); // Initialize the loading for the Survey screen
+                                    setTimeout(() => {
+                                        router.replace("/screens/MainPages/Journey");
+                                        setIsLoading(false);
+                                    }, 2000); // Wait 2 secs
+                                }}
+                                disabled={isLoading} // Then disable condition after.
+                                >
+                                {isLoading ? (
+                                    <ActivityIndicator size="large" color="#2A333D" />
+                                ):(
+                                    <Text style={styles.greetingBtnsTxt}>Explore</Text>
+                                )}  
                             </TouchableOpacity>
                         </View>
                     </>
@@ -142,6 +182,38 @@ function SurveyButton({ text, onPress }: SurveyButtonProps ) {
 
 
 const styles = StyleSheet.create({
+    surveyOneCont: {
+        flexGrow: 1,
+        padding: 20,
+        backgroundColor: "#101B29"
+    },
+    surveyOneContent: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 30,
+    },
+    surveyOneContentBottom: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 50,
+    },
+    medGraphic: {
+        width: 350,
+        height: 350,
+    },
+    surveyTagline: {
+        textAlign: 'center',
+        fontFamily: "Roboto_500Medium",
+        fontSize: 30,
+        color: "white",
+    },
+    forwardBtn: {
+        backgroundColor: "#6BD6CF",
+        padding: 10,
+        borderRadius: 50,
+    },
     surveyTwoCont: {
         flexGrow: 1,
         padding: 20,
