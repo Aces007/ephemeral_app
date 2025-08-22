@@ -50,9 +50,10 @@ const TabNavigator = () => {
                     fontFamily: 'Roboto_600SemiBold',
                     fontSize: 12,
                     fontWeight: "600",
+                    marginTop: 4,
                 },
                 tabBarStyle: {
-                    height: 70,
+                    height: 75,
                     backgroundColor: "#101B29",
                     borderTopWidth: 0,
                 },
