@@ -15,6 +15,10 @@ const Header = ({ variant, title, subtitle, onPressProfile }: HeaderProps) => {
         Roboto_400Regular,
         Roboto_500Medium,
     });
+    
+    if (!fontsLoaded) {
+        return;
+    }
 
 
     if (variant === "Space") {
