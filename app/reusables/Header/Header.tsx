@@ -68,11 +68,11 @@ const Header = ({ variant, title, subtitle, onPressProfile }: HeaderProps) => {
                 
                 <View style={styles.headerRight}>
                     <TouchableOpacity style={styles.variantIconsCont}>
-                        <Ionicons name='notifications-outline' size={24} style={styles.variantIcons}/>
+                        <Ionicons name='heart-outline' size={24} style={styles.variantIcons}/>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.variantIconsCont}>
-                        <Ionicons name='person-outline' size={24} style={styles.variantIcons}/>
+                        <Ionicons name='notifications-outline' size={24} style={styles.variantIcons}/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -94,23 +94,27 @@ const styles = StyleSheet.create({
     },
     headerLeft: {
         display: 'flex',
-        gap: 10,
+        gap: 8,
+        borderWidth: 2,
+        borderColor: 'red'
     },
     headerRight: {
         display: 'flex',
         flexDirection: 'row',
         gap: 10,
+        borderWidth: 2,
+        borderColor: 'red'
     },
     variantTitle: {
         fontFamily: 'Roboto_500Medium',
         color: 'white',
-        fontSize: 21,
+        fontSize: 20,
         opacity: 0.7,
     },
     variantSubTitle: {
         fontFamily: 'Roboto_400Regular',
         color: 'white',
-        fontSize: 25,
+        fontSize: 24,
     },
     variantIconsCont: {
         backgroundColor: '#2A333D',
