@@ -95,15 +95,11 @@ const styles = StyleSheet.create({
     headerLeft: {
         display: 'flex',
         gap: 8,
-        borderWidth: 2,
-        borderColor: 'red'
     },
     headerRight: {
         display: 'flex',
         flexDirection: 'row',
         gap: 10,
-        borderWidth: 2,
-        borderColor: 'red'
     },
     variantTitle: {
         fontFamily: 'Roboto_500Medium',
