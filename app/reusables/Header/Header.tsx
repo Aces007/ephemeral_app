@@ -14,9 +14,7 @@ const Header = ({ variant, title, subtitle, onPressProfile }: HeaderProps) => {
     let [fontsLoaded] = useFonts({
         Roboto_400Regular,
         Roboto_500Medium,
-    });
-    
-    if (!fontsLoaded) {
+    }); if (!fontsLoaded) {
         return;
     }
 
