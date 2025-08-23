@@ -14,9 +14,7 @@ const Header = ({ variant, title, subtitle, onPressProfile }: HeaderProps) => {
     let [fontsLoaded] = useFonts({
         Roboto_400Regular,
         Roboto_500Medium,
-    });
-    
-    if (!fontsLoaded) {
+    }); if (!fontsLoaded) {
         return;
     }
 
@@ -95,15 +93,11 @@ const styles = StyleSheet.create({
     headerLeft: {
         display: 'flex',
         gap: 8,
-        borderWidth: 2,
-        borderColor: 'red'
     },
     headerRight: {
         display: 'flex',
         flexDirection: 'row',
         gap: 10,
-        borderWidth: 2,
-        borderColor: 'red'
     },
     variantTitle: {
         fontFamily: 'Roboto_500Medium',
