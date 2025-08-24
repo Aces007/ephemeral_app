@@ -1,9 +1,9 @@
 import Header from "@/app/reusables/Header/Header";
 import { Inter_500Medium } from "@expo-google-fonts/inter";
-import { Roboto_400Regular, Roboto_500Medium, Roboto_700Bold, useFonts } from "@expo-google-fonts/roboto";
+import { Roboto_400Regular, Roboto_500Medium, Roboto_600SemiBold, Roboto_700Bold, useFonts } from "@expo-google-fonts/roboto";
 import dayjs from "dayjs";
 import React, { useState } from "react";
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 
 const generateWeek = () => {
@@ -17,26 +17,96 @@ const generateWeek = () => {
     })
 }
 
+// Activities Data Structure Declaration (to avoid TS errors)
+type Activity = {
+    title: string;
+    desc: string;
+}
+
+type DailyActivities = {
+    main: Activity[];
+    subs: Activity[];
+}
+
+type DailyData = {
+    [date: string]: DailyActivities
+}
+
+const activities : DailyActivities[] = [
+    {
+        main: [
+            {
+                title: "5 MIN MEDITATION",
+                desc: "A 5-minute pause to breathe and refocus."
+            },
+            {
+                title: "INTROSPECTIVE JOURNAL",
+                desc: "A quiet space to reflect and reconnect within."
+            },
+        ],
+        subs: [
+            {
+                title: "BOX BREATHING",
+                desc: "Breathe in rhythm to ease stress."
+            },
+            {
+                title: "CALM SOUNDS",
+                desc: "Soothing audio for peace."
+            },
+        ],
+    },
+    {
+        main: [
+            {
+                title: "5 MIN MEDITATION",
+                desc: "A 5-minute pause to breathe and refocus."
+            },
+            {
+                title: "10 MIN MEDITATION",
+                desc: "Take 10 to return to yourself."
+            },
+        ],
+        subs: [
+            {
+                title: "WALKING MEDITATION",
+                desc: "Move slowly with mindful steps."
+            },
+            {
+                title: "GRATITUDE PRACTICE",
+                desc: "Pause and feel thankful."
+            },
+        ],
+    },
+]
+
+
+
 const Journey = () => {
     const [selected, setSelected] = useState(dayjs().format("YYYY-MM-DD"));
     const days = generateWeek();
+    const dailyData: DailyData = {};
+
+    days.forEach((day, index) => {
+        dailyData[day.key] = activities[index % activities.length];
+    }) 
 
     let [fontsLoaded] = useFonts({
         Roboto_700Bold,
         Inter_500Medium,
         Roboto_500Medium,
         Roboto_400Regular,
-    }); if (!fontsLoaded) {
+        Roboto_600SemiBold,
+    }); 
+    if (!fontsLoaded) {
         return;
     }
-
     
 
     return(
         <View style={styles.journeyCont}>
             <Header variant="Journey" title="Good Evening" subtitle="Ace"/>
 
-            <View style={styles.journeyContent}>
+            <ScrollView contentContainerStyle={styles.journeyContent} showsVerticalScrollIndicator={false}>
                 <FlatList
                     horizontal
                     data={days}
@@ -63,21 +133,30 @@ const Journey = () => {
                 </View>
 
                 <View style={styles.dailyCont}>
-                    <View
-                        style={styles.dailyMain}
-                    >
-                        <Text>TEST</Text>
-                        <Text>TEST</Text>
+                    <View style={styles.dailyMain}>
+                        {dailyData[selected]?.main.map((activity, index) => (
+                            <TouchableOpacity key={index} style={styles.mainActivityBox}>
+                                <Text style={styles.mainActivityTitle}>{activity.title}</Text>
+                                <Text style={styles.mainActivityDesc}>{activity.desc}</Text>
+                            </TouchableOpacity>
+                        ))}
                     </View>
                     
-                    <View
-                        style={styles.dailySub}
-                    >
-                        <Text>TEST</Text>
-                        <Text>TEST</Text>
+                    <View style={styles.dailySub}>
+                        {dailyData[selected]?.subs.map((activity, index) => (
+                            <TouchableOpacity key={index} style={styles.subActivityBox}>
+                                <Text style={styles.subActivityTitle}>{activity.title}</Text>
+                                <Text style={styles.subActivityDesc}>{activity.desc}</Text>
+                            </TouchableOpacity>
+                        ))}
                     </View>
                 </View>
-            </View>
+
+                <View style={styles.dailyStatsCont}>
+                    <Text style={styles.dailyStatsLabel}>Time Invested Today</Text>
+                    <Text style={styles.dailyStatsData}>30mins</Text>
+                </View>
+            </ScrollView>
 
         </View>
     )
@@ -85,15 +164,14 @@ const Journey = () => {
 
 const styles = StyleSheet.create({
     journeyCont: {
-        flexGrow: 1,
+        flex: 1,
         padding: 20,
-        backgroundColor: "#101B29"
+        backgroundColor: "#101B29",
     },
     journeyContent: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-evenly',
-        gap: 24,
+        gap: 32,
     },
     calendarContent: {
         display: 'flex',
@@ -131,20 +209,87 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
+        gap: 32,
     },
     dailyMain: {
-        borderWidth: 2,
-        borderColor: 'blue',
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 24,
     },
     dailySub: {
-        borderWidth:2,
-        borderColor: 'red',
         display: 'flex',
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
+        gap: 8,
+    },
+    mainActivityBox: {
+        width: '100%',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 8,
+        backgroundColor: 'gray',
+        padding: 16,
+        borderRadius: 8,
+    },
+    subActivityBox: {
+        width: '45%',
+        height: 100,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 12,
+        backgroundColor: 'gray',
+        padding: 16,
+        borderRadius: 8,
+    },
+    mainActivityTitle: {
+        width: '50%',
+        textAlign: 'center',
+        fontFamily: 'Roboto_600SemiBold',
+        color: '#F0F0F0',
+        fontSize: 16,
+    },
+    mainActivityDesc: {
+        width: '50%',
+        textAlign: 'center',
+        fontFamily: 'Roboto_400Regular',
+        color: '#F0F0F0',
+        fontSize: 14,
+    },
+    subActivityTitle: {
+        textAlign: 'center',
+        fontFamily: 'Roboto_600SemiBold',
+        color: '#F0F0F0',
+        fontSize: 14,
+    },
+    subActivityDesc: {
+        textAlign: 'center',
+        fontFamily: 'Roboto_400Regular',
+        color: '#F0F0F0',
+        fontSize: 12,
+    },
+    dailyStatsCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: 'gray',
+        padding: 16,
+        borderRadius: 8,
+    },
+    dailyStatsLabel: {
+        fontFamily: 'Roboto_500Medium',
+        color: '#F0F0F0',
+        fontSize: 16,
+    },
+    dailyStatsData: {
+        fontFamily: 'Roboto_700Bold',
+        color: '#6BD6CF',
+        fontSize: 16,
     },
 })
 
