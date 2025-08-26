@@ -24,13 +24,18 @@ const Header = ({ variant, title, subtitle, onPressProfile }: HeaderProps) => {
             <View style={styles.variantCont}>
                 <View style={styles.variantContent}>
                     <View style={styles.headerLeft}>
-                        <Text>{title ?? "Space"}</Text>
-                        <Text>{subtitle ?? "Mind Sanctuary"}</Text>
+                        <Text style={styles.variantTitle}>{title ?? "Space"}</Text>
+                        <Text style={styles.variantSubTitle}>{subtitle ?? "Mind Sanctuary"}</Text>
                     </View>
                     
                     <View style={styles.headerRight}>
-                        <Ionicons name='heart' size={35}  color="#2A333D" />
-                        <Ionicons name='notifications' size={35}  color="#2A333D" />
+                        <TouchableOpacity style={styles.variantIconsCont}>
+                            <Ionicons name='heart-outline' size={24}  style={styles.variantIcons} />
+                        </TouchableOpacity>
+                        
+                        <TouchableOpacity style={styles.variantIconsCont}>
+                            <Ionicons name='notifications-outline' size={24}  style={styles.variantIcons} />
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -42,13 +47,18 @@ const Header = ({ variant, title, subtitle, onPressProfile }: HeaderProps) => {
             <View style={styles.variantCont}>
                 <View style={styles.variantContent}>
                     <View style={styles.headerLeft}>
-                        <Text>{title ?? "You"}</Text>
-                        <Text>{subtitle ?? "Inner Growth"}</Text>
+                        <Text style={styles.variantTitle}>{title ?? "You"}</Text>
+                        <Text style={styles.variantSubTitle}>{subtitle ?? "Inner Growth"}</Text>
                     </View>
                     
                     <View style={styles.headerRight}>
-                        <Ionicons name='heart' size={35}  color="#2A333D" />
-                        <Ionicons name='notifications' size={35}  color="#2A333D" />
+                        <TouchableOpacity style={styles.variantIconsCont}>
+                            <Ionicons name='heart-outline' size={24}  style={styles.variantIcons} />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity style={styles.variantIconsCont}>
+                            <Ionicons name='notifications-outline' size={24}  style={styles.variantIcons} />
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
