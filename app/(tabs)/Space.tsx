@@ -2,7 +2,7 @@ import Header from "@/app/reusables/Header/Header";
 import { Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
 import { Entypo, Fontisto, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type Routine = {
     title: string;
@@ -88,7 +88,7 @@ const Space = () => {
         <View style={styles.spaceCont}>
             <Header variant="Space" title="Space" subtitle="Mind Sanctuary" />
 
-            <View style={styles.spaceContent}>
+            <ScrollView contentContainerStyle={styles.spaceContent} showsVerticalScrollIndicator={false}>
                 <View style={styles.spaceMenu}>
                     <TouchableOpacity style={[styles.spaceMenuBtns, selected === "meditate" && styles.spaceMenuBtnsHighlighted]} onPress={() => setSelected("meditate")}>
                         <Entypo name="air" size={24} style={[styles.spaceMenuSVG, selected === "meditate" && {color: '#2B2B28'}]}/>
@@ -109,16 +109,16 @@ const Space = () => {
                 {selected && (
                     <View style={styles.spaceRoutines}>
                         {routines[0][selected].map((routine, index) => (
-                            <View key={index} style={{borderWidth: 2}}>
-                                <Text>{routine.title}</Text>
-                                <Text>{routine.desc}</Text>
-                            </View>
+                            <TouchableOpacity key={index} style={styles.spaceRoutineBtns}>
+                                <Text style={styles.routineTitle}>{routine.title}</Text>
+                                <Text style={styles.routineDesc}>{routine.desc}</Text>
+                            </TouchableOpacity>
                         ))}
                 </View>
                 )}
 
 
-            </View>
+            </ScrollView>
         </View>
     )
 }
@@ -165,9 +165,34 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter_500Medium',   
     },
     spaceRoutines: {
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        gap: 16,
+        justifyContent: 'space-evenly',
+        gap: 24,
+    },
+    spaceRoutineBtns: {
+        backgroundColor: 'gray',
+        padding: 16,
+        borderRadius: 8,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+    },
+    routineTitle: {
+        width: '50%',
+        textAlign: 'center',
+        fontFamily: 'Roboto_600SemiBold',
+        color: '#F0F0F0',
+        fontSize: 16,
+    },
+    routineDesc: {
+        width: '50%',
+        textAlign: 'center',
+        fontFamily: 'Roboto_400Regular',
+        color: '#F0F0F0',
+        fontSize: 14,
     },
 })
 
