@@ -144,7 +144,7 @@ const SurveyTwo = () => {
                                 onPress={() => {
                                     setIsLoading(true); // Initialize the loading for the Survey screen
                                     setTimeout(() => {
-                                        router.replace("/screens/MainPages/Journey");
+                                        router.replace("/(tabs)/Journey");
                                         setIsLoading(false);
                                     }, 2000); // Wait 2 secs
                                 }}

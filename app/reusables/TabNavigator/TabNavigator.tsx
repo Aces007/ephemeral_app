@@ -5,10 +5,9 @@ import { Image } from "react-native";
 
 
 // Tab's Pages to render.
-import Journey from "@/app/screens/MainPages/Journey";
-import Space from "@/app/screens/MainPages/Space";
-import You from "@/app/screens/MainPages/You";
-
+import Journey from "@/app/(tabs)/Journey";
+import Space from "@/app/(tabs)/Space";
+import You from "@/app/(tabs)/You";
 
 const Tab = createBottomTabNavigator();
 
