@@ -109,7 +109,7 @@ const Space = () => {
                 {selected && (
                     <View style={styles.spaceRoutines}>
                         {routines[0][selected].map((routine, index) => (
-                            <View key={index}>
+                            <View key={index} style={{borderWidth: 2}}>
                                 <Text>{routine.title}</Text>
                                 <Text>{routine.desc}</Text>
                             </View>
@@ -165,7 +165,9 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter_500Medium',   
     },
     spaceRoutines: {
-
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 16,
     },
 })
 
