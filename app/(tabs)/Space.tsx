@@ -77,6 +77,20 @@ const routines : RoutineSelection[] = [
 
 const Space = () => {
     const [selected, setSelected] = useState<"meditate" | "introspect" | "unwind"| null>(null);
+    const customPrompts = {
+        meditate: {
+            name: 'timer-sand',
+            text: 'Set Your Own Time',
+        },
+        introspect: {
+            name: 'pencil',
+            text: 'Write an Entry',
+        },
+        unwind: {
+            name: 'headphones',
+            text: 'Just Relax',
+        },
+    };
     
     let [fontsLoaded] = useFonts({
         Inter_500Medium
@@ -117,6 +131,12 @@ const Space = () => {
                 </View>
                 )}
 
+                {selected && (    
+                    <TouchableOpacity style={styles.customRoutines}>
+                        <MaterialCommunityIcons name={customPrompts[selected].name as any} size={24} style={styles.customRoutinesIcon}/>
+                        <Text style={styles.customRoutinesPrompt}>{customPrompts[selected].text}</Text>
+                    </TouchableOpacity>
+                )}
 
             </ScrollView>
         </View>
@@ -193,6 +213,23 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto_400Regular',
         color: '#F0F0F0',
         fontSize: 14,
+    },
+    customRoutines: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: 'gray',
+        padding: 16,
+        borderRadius: 8,
+    },
+    customRoutinesIcon: {
+        color: '#F0F0F0',
+    },
+    customRoutinesPrompt: {
+        fontFamily: 'Roboto_500Medium',
+        color: '#F0F0F0',
+        fontSize: 16,
     },
 })
 
