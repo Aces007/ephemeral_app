@@ -76,7 +76,7 @@ const routines : RoutineSelection[] = [
 
 
 const Space = () => {
-    const [selected, setSelected] = useState(false);
+    const [selected, setSelected] = useState<"meditate" | "introspect" | "unwind"| null>(null);
     
     let [fontsLoaded] = useFonts({
         Inter_500Medium
@@ -90,21 +90,32 @@ const Space = () => {
 
             <View style={styles.spaceContent}>
                 <View style={styles.spaceMenu}>
-                    <TouchableOpacity style={styles.spaceMenuBtns}>
-                        <Entypo name="air" size={24} style={styles.spaceMenuSVG}/>
-                        <Text style={styles.spaceMenuLabel}>Meditate</Text>
+                    <TouchableOpacity style={[styles.spaceMenuBtns, selected === "meditate" && styles.spaceMenuBtnsHighlighted]} onPress={() => setSelected("meditate")}>
+                        <Entypo name="air" size={24} style={[styles.spaceMenuSVG, selected === "meditate" && {color: '#2B2B28'}]}/>
+                        <Text style={[styles.spaceMenuLabel, selected === "meditate" && {color: '#2B2B28'}]}>Meditate</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.spaceMenuBtns}>
-                        <MaterialCommunityIcons name="notebook-edit-outline" size={24} style={styles.spaceMenuSVG}/>
-                        <Text style={styles.spaceMenuLabel}>Introspect</Text>
+                    <TouchableOpacity style={[styles.spaceMenuBtns, selected === "introspect" && styles.spaceMenuBtnsHighlighted]} onPress={() => setSelected("introspect")}>
+                        <MaterialCommunityIcons name="notebook-edit-outline" size={24} style={[styles.spaceMenuSVG, selected === "introspect" && {color: '#2B2B28'}]}/>
+                        <Text style={[styles.spaceMenuLabel, selected === "introspect" && {color: '#2B2B28'}]}>Introspect</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.spaceMenuBtns}>
-                        <Fontisto name="wind" size={24} style={styles.spaceMenuSVG}/>
-                        <Text style={styles.spaceMenuLabel}>Unwind</Text>
+                    <TouchableOpacity style={[styles.spaceMenuBtns, selected === "unwind" && styles.spaceMenuBtnsHighlighted]} onPress={() => setSelected("unwind")}>
+                        <Fontisto name="wind" size={24} style={[styles.spaceMenuSVG, selected === "unwind" && {color: '#2B2B28'}]}/>
+                        <Text style={[styles.spaceMenuLabel, selected === "unwind" && {color: '#2B2B28'}]}>Unwind</Text>
                     </TouchableOpacity>
                 </View>
+
+                {selected && (
+                    <View style={styles.spaceRoutines}>
+                        {routines[0][selected].map((routine, index) => (
+                            <View key={index}>
+                                <Text>{routine.title}</Text>
+                                <Text>{routine.desc}</Text>
+                            </View>
+                        ))}
+                </View>
+                )}
 
 
             </View>
@@ -138,13 +149,24 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 8,
     },
+    spaceMenuBtnsHighlighted: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: '#CAC4E7',
+        padding: 16,
+        borderRadius: 8,
+    },
     spaceMenuSVG: {
         color: '#F0F0F0',
     },
     spaceMenuLabel: {
         color: '#F0F0F0',
         fontFamily: 'Inter_500Medium',   
-    }
+    },
+    spaceRoutines: {
+
+    },
 })
 
 export default Space;
