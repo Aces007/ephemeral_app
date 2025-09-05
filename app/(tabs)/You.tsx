@@ -62,6 +62,10 @@ const You = () => {
                     </View>
                 </View>
 
+                <View style={styles.appPreferencesCont}>
+                    <Text style={styles.appPrefLabel}>App Preferences</Text>
+                </View>
+
             </View>
         </View>
     )
@@ -85,7 +89,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         gap: 16,
         backgroundColor: '#2A333D',
-        paddingBlock: 8,
+        padding: 8,
         borderRadius: 60,
         width: '60%',
     },
@@ -133,6 +137,15 @@ const styles = StyleSheet.create({
         fontSize: 24,
         color: '#F0F0F0',
     },
+    appPreferencesCont: {
+
+    },
+    appPrefLabel: {
+        fontFamily: 'Roboto_400Regular',
+        fontSize: 24,
+        color: '#F0F0F0'
+    },
+
 })
 
 
