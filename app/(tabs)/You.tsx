@@ -1,5 +1,7 @@
 import { Inter_300Light, Inter_500Medium, useFonts } from "@expo-google-fonts/inter";
 import { Roboto_400Regular, Roboto_500Medium, Roboto_700Bold } from "@expo-google-fonts/roboto";
+import { Feather, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Header from "../reusables/Header/Header";
@@ -14,6 +16,21 @@ const You = () => {
         Roboto_500Medium,
         Roboto_700Bold
     })
+
+    const AppPreferences = [
+        {
+            label: "Edit Profile",
+            icon: <MaterialCommunityIcons name="account-edit" size={32} color={'#2B2B28'}/>
+        },
+        {
+            label: "Theme",
+            icon: <Feather name="pen-tool" size={32} color={'#2B2B28'}/>
+        },
+        {
+            label: "Log Out",
+            icon: <MaterialIcons name="exit-to-app" size={32} color={'#2B2B28'}/>
+        },
+    ]
 
     return (
         <View style={styles.youCont}>
@@ -64,6 +81,22 @@ const You = () => {
 
                 <View style={styles.appPreferencesCont}>
                     <Text style={styles.appPrefLabel}>App Preferences</Text>
+
+                    <View style={styles.preferencesCont}>
+                        {AppPreferences.map((item, index) => (
+                            <TouchableOpacity>
+                                <LinearGradient
+                                    colors={['#A994E9', '#6BD6CF']}
+                                    start={{x:0, y:0}}
+                                    end={{x:1, y:0}}
+                                    style={styles.preferencesBtnGradient}
+                                >
+                                    {item.icon}
+                                    <Text style={styles.preferencesLabel}>{item.label}</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
                 </View>
 
             </View>
@@ -138,14 +171,37 @@ const styles = StyleSheet.create({
         color: '#F0F0F0',
     },
     appPreferencesCont: {
-
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+        gap: 32,
     },
     appPrefLabel: {
         fontFamily: 'Roboto_400Regular',
         fontSize: 24,
         color: '#F0F0F0'
     },
-
+    preferencesCont: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        gap: 24,
+        marginBottom: 24,
+    },
+    preferencesBtnGradient: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 40,
+        padding: 8,
+        borderRadius: 8,
+    },
+    preferencesLabel: {
+        fontFamily: 'Inter_500Medium',
+        textTransform: 'uppercase',
+        fontSize: 20,
+    },
 })
 
 
