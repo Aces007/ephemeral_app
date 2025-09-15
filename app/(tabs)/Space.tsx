@@ -69,6 +69,14 @@ const routines : RoutineSelection[] = [
             {
                 title: "GRATITUDE PRACTICE",
                 desc: "A moment to appreciate the good in your life."
+            },
+            {
+                title: "GRATITUDE PRACTICE",
+                desc: "A moment to appreciate the good in your life."
+            },
+            {
+                title: "GRATITUDE PRACTICE",
+                desc: "A moment to appreciate the good in your life."
             }
         ]
     },
@@ -76,7 +84,7 @@ const routines : RoutineSelection[] = [
 
 
 const Space = () => {
-    const [selected, setSelected] = useState<"meditate" | "introspect" | "unwind"| null>(null);
+    const [selected, setSelected] = useState<"meditate" | "introspect" | "unwind">("meditate");
     const customPrompts = {
         meditate: {
             name: 'timer-sand',
