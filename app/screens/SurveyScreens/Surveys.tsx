@@ -12,6 +12,8 @@ const SurveyTwo = () => {
     const [selected, setSelected] = useState("");
     const [name, setName] = useState("");
     const fadeAnim = useRef(new Animated.Value(0)).current;
+    const [isLoadingLogin, setIsLoadingLogin] = useState(false);
+    const [isLoadingExplore, setIsLoadingExplore] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     let [fontsLoaded] = useFonts({
@@ -135,22 +137,35 @@ const SurveyTwo = () => {
                                 </ImageBackground>
                             </View>
 
-                            <TouchableOpacity style={[styles.greetingBtnsCont, { backgroundColor: '#A994E9' }]}>
-                                <Text style={styles.greetingBtnsTxt}>Create your profile</Text>
+                            <TouchableOpacity style={[styles.greetingBtnsCont, { backgroundColor: '#A994E9' }]}
+                                onPress={() => {
+                                    setIsLoadingLogin(true); 
+                                    setTimeout(() => {
+                                        router.replace("/screens/UserAccount/Login");
+                                        setIsLoadingLogin(false);
+                                    }, 2000)
+                                }}
+                                disabled={isLoadingLogin} 
+                            >
+                                {isLoadingLogin ? (
+                                    <ActivityIndicator size="large" color="#2A333D" />
+                                ):(
+                                    <Text style={styles.greetingBtnsTxt}>Create your profile</Text>
+                                )}
                             </TouchableOpacity>
                             
                             
                             <TouchableOpacity style={[styles.greetingBtnsCont, { backgroundColor: '#6BD6CF' }]}
                                 onPress={() => {
-                                    setIsLoading(true); // Initialize the loading for the Survey screen
+                                    setIsLoadingExplore(true); 
                                     setTimeout(() => {
                                         router.replace("/(tabs)/Journey");
-                                        setIsLoading(false);
+                                        setIsLoadingExplore(false);
                                     }, 2000); // Wait 2 secs
                                 }}
-                                disabled={isLoading} // Then disable condition after.
-                                >
-                                {isLoading ? (
+                                disabled={isLoadingExplore} // Then disable condition after.
+                            >
+                                {isLoadingExplore ? (
                                     <ActivityIndicator size="large" color="#2A333D" />
                                 ):(
                                     <Text style={styles.greetingBtnsTxt}>Explore</Text>

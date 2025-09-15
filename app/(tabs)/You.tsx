@@ -84,7 +84,7 @@ const You = () => {
 
                     <View style={styles.preferencesCont}>
                         {AppPreferences.map((item, index) => (
-                            <TouchableOpacity>
+                            <TouchableOpacity key={index}>
                                 <LinearGradient
                                     colors={['#A994E9', '#6BD6CF']}
                                     start={{x:0, y:0}}
