@@ -1,10 +1,14 @@
 import { Roboto_400Regular, Roboto_500Medium, useFonts } from "@expo-google-fonts/roboto";
 import { Feather, Fontisto } from "@expo/vector-icons";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 
 const Login = () => {
+    const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
+    const router = useRouter();
 
     let [fontsLoaded] = useFonts({
         Roboto_400Regular,
@@ -75,8 +79,21 @@ const Login = () => {
                 <View style={styles.suggestionCont}>
                     <Text style={styles.suggestionTxt}>Don’t have an account yet?</Text>
 
-                    <TouchableOpacity style={styles.registerBtnCont}>
-                        <Text style={styles.registerBtn}>Sign Up</Text>
+                    <TouchableOpacity style={styles.registerBtnCont}
+                        onPress={() => {
+                            setIsLoadingSignUp(true);
+                            setTimeout(() => {
+                                router.replace('/screens/UserAccount/SignUp');
+                                setIsLoadingSignUp(false);
+                            }, 2000)
+                        }}
+                        disabled={isLoadingSignUp}
+                    >
+                        {isLoadingSignUp ? (
+                            <ActivityIndicator size="large" color="#2A333D" /> 
+                        ) : (
+                                <Text style={styles.registerBtn}>Sign Up</Text>
+                        )}
                     </TouchableOpacity>
                 </View>
             </View>
