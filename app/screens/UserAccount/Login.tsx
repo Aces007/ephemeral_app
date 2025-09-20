@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
         paddingTop: 40,
         alignItems: 'center',
         backgroundColor: "#101B29",
-        gap: 32,
+        gap: 24,
     },
     loginHeader: {
         fontFamily: 'Roboto_500Medium',
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         gap: 32,
-        padding: 32,
+        padding: 24,
         backgroundColor: '#2A333D33',
         width: 350,
         borderRadius: 16,
