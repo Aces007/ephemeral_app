@@ -70,7 +70,7 @@ const SignUp = () => {
                 </View>
                 
                 <TouchableOpacity style={styles.formBtnCont}>
-                    <Text style={styles.formBtn}>Login</Text>
+                    <Text style={styles.formBtn}>Sign Up</Text>
                 </TouchableOpacity>
 
                 <View style={styles.dividerCont}>
