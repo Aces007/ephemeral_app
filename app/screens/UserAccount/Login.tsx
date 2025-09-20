@@ -1,6 +1,8 @@
 import { Roboto_400Regular, Roboto_500Medium, useFonts } from "@expo-google-fonts/roboto";
 import { Feather, Fontisto } from "@expo/vector-icons";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+
 
 const Login = () => {
 
@@ -38,7 +40,44 @@ const Login = () => {
                     </View>
                 </View>
                 <View style={styles.formOptions}>
+                    <TouchableOpacity style={styles.formOptionsCont}> 
+                        <View style={styles.formOptionsCheck}/>
+                        <Text style={styles.formOptionsCheckTxt}>Remember Me</Text>
+                    </TouchableOpacity>
 
+                    <TouchableOpacity>
+                        <Text style={styles.formOptionsCheckTxt}>Forgot Password</Text>
+                    </TouchableOpacity>
+                </View>
+                
+                <TouchableOpacity style={styles.formBtnCont}>
+                    <Text style={styles.formBtn}>Login</Text>
+                </TouchableOpacity>
+
+                <View style={styles.dividerCont}>
+                    <View style={styles.dividerLine} />
+                    <Text style={styles.dividerTxt}>OR</Text>
+                    <View style={styles.dividerLine} />
+                </View>
+
+                <View style={styles.formBtnAlt}>
+                    <TouchableOpacity style={styles.formBtnAltCont}>
+                        <FontAwesome name="google" size={24} color={'#f0f0f0'}/>
+                        <Text style={styles.formAltBtnTxt}>Google</Text>
+                    </TouchableOpacity>
+                    
+                    <TouchableOpacity style={styles.formBtnAltCont}>
+                        <FontAwesome name="facebook" size={24} color={'#f0f0f0'}/>
+                        <Text style={styles.formAltBtnTxt}>Facebook</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.suggestionCont}>
+                    <Text style={styles.suggestionTxt}>Don’t have an account yet?</Text>
+
+                    <TouchableOpacity style={styles.registerBtnCont}>
+                        <Text style={styles.registerBtn}>Sign Up</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
@@ -49,13 +88,15 @@ const Login = () => {
 const styles = StyleSheet.create({
     LoginCont: {
         flex: 1,
-        padding: 20,
+        padding: 24,
+        paddingTop: 40,
+        alignItems: 'center',
         backgroundColor: "#101B29",
-        gap: 32,
+        gap: 24,
     },
     loginHeader: {
         fontFamily: 'Roboto_500Medium',
-        fontSize: 35,
+        fontSize: 32,
         color: '#F0F0F0',
         textAlign: 'center',
         marginTop: 40,
@@ -68,6 +109,8 @@ const styles = StyleSheet.create({
         gap: 32,
         padding: 24,
         backgroundColor: '#2A333D33',
+        width: 350,
+        borderRadius: 16,
     },
     loginSubHeader: {
         fontFamily: 'Roboto_400Regular',
@@ -99,6 +142,103 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto_400Regular',
         opacity: 0.5,
     },
-    formOptions: {},
+    formOptions: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: 280,
+        marginBottom: 8,
+    },
+    formOptionsCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+    },
+    formOptionsCheck: {
+        width: 16,
+        height: 16,
+        borderWidth: 1,
+        borderRadius: 4,
+        borderColor: '#F0F0F0',
+    },
+    formOptionsCheckTxt: {
+        fontFamily: 'Roboto_500Medium',
+        fontSize: 12,
+        color: '#F0F0F0',
+    },
+    formBtnAlt: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 24,
+    },
+    formBtnCont: {
+        backgroundColor: '#6BD5CE',
+        width: 280,
+        padding: 12,
+        borderRadius: 8,
+    },
+    formBtnAltCont: {
+        backgroundColor: '#272C3C',
+        width: 130,
+        padding: 16,
+        borderRadius: 8,
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+    },
+    formBtn: {
+        fontFamily: 'Roboto_500Medium',
+        textTransform: 'uppercase',
+        textAlign: 'center',
+        color: '#101B29',
+        fontSize: 18,
+        letterSpacing: 1,
+    },
+    formAltBtnTxt: {
+        fontFamily: 'Roboto_500Medium',
+        textTransform: 'uppercase',
+        textAlign: 'center',
+        color: '#f0f0f0',
+        fontSize: 16,
+        letterSpacing: 1,
+    },
+    dividerCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    dividerLine: {
+        flex:1,
+        height: 1,
+        backgroundColor: '#F0F0F033',
+    },
+    dividerTxt: {
+        fontFamily: 'Roboto_500Medium',
+        color: '#F0F0F0',
+        fontSize: 16,
+    },
+    suggestionCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        marginBottom: 16,
+    },
+    suggestionTxt: {
+        fontFamily: 'Roboto_400Regular',
+        color: '#F0F0F0',
+    },
+    registerBtn: {
+        fontFamily: 'Roboto_400Regular',
+        color: '#6BD6CF',
+        textDecorationLine: 'underline',
+    },
+    registerBtnCont: {
+        
+    },
 })
 export default Login;
