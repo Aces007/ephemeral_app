@@ -71,6 +71,14 @@ const Login = () => {
                         <Text style={styles.formAltBtnTxt}>Facebook</Text>
                     </TouchableOpacity>
                 </View>
+
+                <View style={styles.suggestionCont}>
+                    <Text style={styles.suggestionTxt}>Don’t have an account yet?</Text>
+
+                    <TouchableOpacity style={styles.registerBtnCont}>
+                        <Text style={styles.registerBtn}>Sign Up</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </View>
     )
@@ -99,7 +107,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         gap: 32,
-        padding: 40,
+        padding: 32,
         backgroundColor: '#2A333D33',
         width: 350,
         borderRadius: 16,
@@ -212,6 +220,25 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto_500Medium',
         color: '#F0F0F0',
         fontSize: 16,
+    },
+    suggestionCont: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        marginBottom: 16,
+    },
+    suggestionTxt: {
+        fontFamily: 'Roboto_400Regular',
+        color: '#F0F0F0',
+    },
+    registerBtn: {
+        fontFamily: 'Roboto_400Regular',
+        color: '#6BD6CF',
+        textDecorationLine: 'underline',
+    },
+    registerBtnCont: {
+        
     },
 })
 export default Login;
