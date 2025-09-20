@@ -1,6 +1,5 @@
 import { Roboto_400Regular, Roboto_500Medium, useFonts } from "@expo-google-fonts/roboto";
-import { Feather, Fontisto } from "@expo/vector-icons";
-import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { Feather, FontAwesome, Fontisto, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
@@ -27,10 +26,26 @@ const SignUp = () => {
 
                 <View style={styles.LoginForm}>
                     <View style={styles.FormCont}>
+                        <FontAwesome name="user-o" size={24} style={styles.inputSVGs}/>
+                        <TextInput
+                            style={styles.inputFields}
+                            placeholder="Full Name"
+                            placeholderTextColor={'#FFFFFF'}
+                        />
+                    </View>
+                    <View style={styles.FormCont}>
+                        <Ionicons name="call-outline" size={24} style={styles.inputSVGs}/>
+                        <TextInput
+                            style={styles.inputFields}
+                            placeholder="Phone Number"
+                            placeholderTextColor={'#FFFFFF'}
+                        />
+                    </View>
+                    <View style={styles.FormCont}>
                         <Fontisto name="email" size={24} style={styles.inputSVGs}/>
                         <TextInput
                             style={styles.inputFields}
-                            placeholder="Provide your email"
+                            placeholder="Email"
                             placeholderTextColor={'#FFFFFF'}
                         />
                     </View>
@@ -38,23 +53,7 @@ const SignUp = () => {
                         <Feather name="lock" size={24} style={styles.inputSVGs}/>
                         <TextInput
                             style={styles.inputFields}
-                            placeholder="Provide your password"
-                            placeholderTextColor={'#FFFFFF'}
-                        />
-                    </View>
-                    <View style={styles.FormCont}>
-                        <Feather name="lock" size={24} style={styles.inputSVGs}/>
-                        <TextInput
-                            style={styles.inputFields}
-                            placeholder="Provide your password"
-                            placeholderTextColor={'#FFFFFF'}
-                        />
-                    </View>
-                    <View style={styles.FormCont}>
-                        <Feather name="lock" size={24} style={styles.inputSVGs}/>
-                        <TextInput
-                            style={styles.inputFields}
-                            placeholder="Provide your password"
+                            placeholder="Password"
                             placeholderTextColor={'#FFFFFF'}
                         />
                     </View>
@@ -93,13 +92,13 @@ const SignUp = () => {
                 </View>
 
                 <View style={styles.suggestionCont}>
-                    <Text style={styles.suggestionTxt}>Don’t have an account yet?</Text>
+                    <Text style={styles.suggestionTxt}>Existing account?</Text>
 
                     <TouchableOpacity style={styles.registerBtnCont}
                         onPress={() => {
                             setIsLoadingSignUp(true);
                             setTimeout(() => {
-                                router.replace('/screens/UserAccount/SignUp');
+                                router.replace('/screens/UserAccount/Login');
                                 setIsLoadingSignUp(false);
                             }, 2000)
                         }}
@@ -108,7 +107,7 @@ const SignUp = () => {
                         {isLoadingSignUp ? (
                             <ActivityIndicator size="large" color="#2A333D" /> 
                         ) : (
-                                <Text style={styles.registerBtn}>Sign Up</Text>
+                                <Text style={styles.registerBtn}>Log In</Text>
                         )}
                     </TouchableOpacity>
                 </View>
@@ -121,7 +120,7 @@ const SignUp = () => {
 const styles = StyleSheet.create({
     LoginCont: {
         flex: 1,
-        paddingVertical: 40,
+        paddingTop: 40,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: "#101B29",
@@ -140,10 +139,10 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        gap: 16,
+        gap: 32,
         padding: 32,
         backgroundColor: '#2A333D33',
-        width: 310,
+        width: 350,
         borderRadius: 16,
     },
     loginSubHeader: {
