@@ -141,7 +141,7 @@ const SurveyTwo = () => {
                                 onPress={() => {
                                     setIsLoadingLogin(true); 
                                     setTimeout(() => {
-                                        router.replace("/screens/UserAccount/Login");
+                                        router.replace("/Login");
                                         setIsLoadingLogin(false);
                                     }, 2000)
                                 }}
@@ -159,7 +159,7 @@ const SurveyTwo = () => {
                                 onPress={() => {
                                     setIsLoadingExplore(true); 
                                     setTimeout(() => {
-                                        router.replace("/(tabs)/Journey");
+                                        router.replace("/Journey");
                                         setIsLoadingExplore(false);
                                     }, 2000); // Wait 2 secs
                                 }}

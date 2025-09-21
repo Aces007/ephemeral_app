@@ -68,7 +68,7 @@ const Splash = () => {
                 onPress={() => {
                   setIsLoading(true); // Initialize the loading for the Survey screen
                   setTimeout(() => {
-                    router.replace("./screens/SurveyScreens/Surveys")
+                    router.replace("/Surveys")
                   }, 2000); // Wait 2 secs
                 }}
                 disabled={isLoading} // Then disable condition after.

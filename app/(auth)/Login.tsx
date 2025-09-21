@@ -83,7 +83,7 @@ const Login = () => {
                         onPress={() => {
                             setIsLoadingSignUp(true);
                             setTimeout(() => {
-                                router.replace('/screens/UserAccount/SignUp');
+                                router.replace('/SignUp');
                                 setIsLoadingSignUp(false);
                             }, 2000)
                         }}
