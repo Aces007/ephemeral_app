@@ -98,7 +98,7 @@ const SignUp = () => {
                         onPress={() => {
                             setIsLoadingSignUp(true);
                             setTimeout(() => {
-                                router.replace('/screens/UserAccount/Login');
+                                router.replace('/Login');
                                 setIsLoadingSignUp(false);
                             }, 2000)
                         }}
