@@ -1,5 +1,5 @@
 import TabNavigator from "../reusables/TabNavigator/TabNavigator"
 
-export default function RootLayout() {
+export default function TabLayout() {
   return <TabNavigator />
 }

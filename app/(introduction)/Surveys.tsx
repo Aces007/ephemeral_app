@@ -51,7 +51,7 @@ const SurveyTwo = () => {
                 {step === 1 && (
                     <View style={styles.surveyOneCont}>
                         <View style={styles.surveyOneContent}>
-                            <Image source={require('../../../assets/images/misc/medGraphic.png')} style={styles.medGraphic}/>
+                            <Image source={require('../../assets/images/misc/medGraphic.png')} style={styles.medGraphic}/>
                             <View style={styles.surveyOneContentBottom}>
                                 <Text style={styles.surveyTagline}>Calm and Peace within Moments</Text>
                                 <TouchableOpacity style={styles.forwardBtn} 
@@ -114,7 +114,7 @@ const SurveyTwo = () => {
 
                 {step === 4 && (
                     <>
-                        <Image source={require('../../../assets/images/misc/medGraphic2.png')} style={styles.medGraphic2}/>
+                        <Image source={require('../../assets/images/misc/medGraphic2.png')} style={styles.medGraphic2}/>
                         <Text style={styles.surveyHeaders}>What should we call you?</Text>
                         <TextInput
                             placeholder="Give us a name"
@@ -131,7 +131,7 @@ const SurveyTwo = () => {
                     <>
                         <View style={styles.surveyGreetingCont}>
                             <View style={styles.surveyGreetingContent}>
-                                <ImageBackground source={require('../../../assets/images/misc/medGraphic3.png')} style={styles.greetingBGCont} imageStyle={{ opacity: 0.5 }}>
+                                <ImageBackground source={require('../../assets/images/misc/medGraphic3.png')} style={styles.greetingBGCont} imageStyle={{ opacity: 0.5 }}>
                                     <Text style={styles.greetingHeaders}>Welcome {name}</Text>
                                     <Text style={styles.greetingSubHeaders}>What do you want to do?</Text>
                                 </ImageBackground>
