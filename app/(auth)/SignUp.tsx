@@ -1,20 +1,33 @@
 import { Roboto_400Regular, Roboto_500Medium, useFonts } from "@expo-google-fonts/roboto";
 import { Feather, FontAwesome, Fontisto, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { auth } from "../../firebaseConfig";
 
 
 const SignUp = () => {
     const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const router = useRouter();
 
     let [fontsLoaded] = useFonts({
         Roboto_400Regular,
         Roboto_500Medium,
-
     }); if (!fontsLoaded) {
         return;
+    }
+
+    const handleSignUp = async () => {
+        try {
+            const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
+            console.log("Registered as:", userCredentials.user.email);
+            // TODO: navigate to (tabs)
+        } catch (err: any) {
+            Alert.alert("Sign Up Failed", err.message);
+        }
     }
 
     return (

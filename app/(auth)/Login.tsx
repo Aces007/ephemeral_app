@@ -2,20 +2,33 @@ import { Roboto_400Regular, Roboto_500Medium, useFonts } from "@expo-google-font
 import { Feather, Fontisto } from "@expo/vector-icons";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from "expo-router";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
-import { ActivityIndicator, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { auth } from "../../firebaseConfig";
 
 
 const Login = () => {
     const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const router = useRouter();
 
     let [fontsLoaded] = useFonts({
         Roboto_400Regular,
         Roboto_500Medium,
-
     }); if (!fontsLoaded) {
         return;
+    }
+
+    const handleLogin = async () => {
+        try {
+            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+            console.log("Logged in as:", userCredentials.user.email);
+            // TODO: navigate to (tabs)
+        } catch (err: any) {
+            Alert.alert("Login Error", err.message);
+        }
     }
 
     return (
@@ -32,6 +45,8 @@ const Login = () => {
                             style={styles.inputFields}
                             placeholder="Provide your email"
                             placeholderTextColor={'#FFFFFF'}
+                            value={email}
+                            onChangeText={setEmail}
                         />
                     </View>
                     <View style={styles.FormCont}>
@@ -40,6 +55,8 @@ const Login = () => {
                             style={styles.inputFields}
                             placeholder="Provide your password"
                             placeholderTextColor={'#FFFFFF'}
+                            value={password}
+                            onChangeText={setPassword}
                         />
                     </View>
                 </View>
@@ -54,7 +71,7 @@ const Login = () => {
                     </TouchableOpacity>
                 </View>
                 
-                <TouchableOpacity style={styles.formBtnCont}>
+                <TouchableOpacity style={styles.formBtnCont} onPress={handleLogin}>
                     <Text style={styles.formBtn}>Login</Text>
                 </TouchableOpacity>
 
