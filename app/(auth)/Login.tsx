@@ -2,14 +2,14 @@ import { Roboto_400Regular, Roboto_500Medium, useFonts } from "@expo-google-font
 import { Feather, Fontisto } from "@expo/vector-icons";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useRouter } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { auth } from "../../firebaseConfig";
+import { useAppContext } from "../context/AppContext";
 
 
 const Login = () => {
     const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
+    const { login } = useAppContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const router = useRouter();
@@ -23,9 +23,8 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
-            console.log("Logged in as:", userCredentials.user.email);
-            // TODO: navigate to (tabs)
+            await login(email, password);
+            router.replace("/Journey");
         } catch (err: any) {
             Alert.alert("Login Error", err.message);
         }

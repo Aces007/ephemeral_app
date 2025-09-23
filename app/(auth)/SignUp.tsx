@@ -1,14 +1,15 @@
 import { Roboto_400Regular, Roboto_500Medium, useFonts } from "@expo-google-fonts/roboto";
 import { Feather, FontAwesome, Fontisto, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useState } from "react";
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { auth } from "../../firebaseConfig";
+import { useAppContext } from "../context/AppContext";
+
 
 
 const SignUp = () => {
     const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
+    const { signup } = useAppContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const router = useRouter();
@@ -22,9 +23,8 @@ const SignUp = () => {
 
     const handleSignUp = async () => {
         try {
-            const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-            console.log("Registered as:", userCredentials.user.email);
-            // TODO: navigate to (tabs)
+            await signup(email, password);
+            router.replace("/Journey");
         } catch (err: any) {
             Alert.alert("Sign Up Failed", err.message);
         }
@@ -82,8 +82,8 @@ const SignUp = () => {
                     </TouchableOpacity>
                 </View>
                 
-                <TouchableOpacity style={styles.formBtnCont}>
-                    <Text style={styles.formBtn}>Login</Text>
+                <TouchableOpacity style={styles.formBtnCont} onPress={handleSignUp}>
+                    <Text style={styles.formBtn}>Sign Up</Text>
                 </TouchableOpacity>
 
                 <View style={styles.dividerCont}>
