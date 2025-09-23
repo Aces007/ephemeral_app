@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "ephemeral",
+    "package": "com.atrainx280.ephemeral",
     "slug": "ephemeral",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,6 +13,7 @@
       "supportsTablet": true
     },
     "android": {
+      "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"

@@ -2,19 +2,32 @@ import { Roboto_400Regular, Roboto_500Medium, useFonts } from "@expo-google-font
 import { Feather, FontAwesome, Fontisto, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useAppContext } from "../context/AppContext";
+
 
 
 const SignUp = () => {
     const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
+    const { signup } = useAppContext();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const router = useRouter();
 
     let [fontsLoaded] = useFonts({
         Roboto_400Regular,
         Roboto_500Medium,
-
     }); if (!fontsLoaded) {
         return;
+    }
+
+    const handleSignUp = async () => {
+        try {
+            await signup(email, password);
+            router.replace("/Journey");
+        } catch (err: any) {
+            Alert.alert("Sign Up Failed", err.message);
+        }
     }
 
     return (
@@ -69,8 +82,8 @@ const SignUp = () => {
                     </TouchableOpacity>
                 </View>
                 
-                <TouchableOpacity style={styles.formBtnCont}>
-                    <Text style={styles.formBtn}>Login</Text>
+                <TouchableOpacity style={styles.formBtnCont} onPress={handleSignUp}>
+                    <Text style={styles.formBtn}>Sign Up</Text>
                 </TouchableOpacity>
 
                 <View style={styles.dividerCont}>
