@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "607930601313",
+    "project_id": "ephemeral-atr41n",
+    "storage_bucket": "ephemeral-atr41n.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:607930601313:android:8cf0f659239ec67df17f20",
+        "android_client_info": {
+          "package_name": "com.atrainx280.ephemeral"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXfzheReHset_z2ew5A1kMpRK-Y-5HlYU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
