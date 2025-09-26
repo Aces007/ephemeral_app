@@ -4,10 +4,12 @@ import { Feather, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-ico
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useAppContext } from "../context/AppContext";
 import Header from "../reusables/Header/Header";
 
 const You = () => {
     const [selectedTab, setSelectedTab] = useState<"daily" | "monthly">("daily");
+    const { logout } = useAppContext();
 
     let [fontsLoaded] = useFonts({
         Inter_300Light,
@@ -20,15 +22,18 @@ const You = () => {
     const AppPreferences = [
         {
             label: "Edit Profile",
-            icon: <MaterialCommunityIcons name="account-edit" size={32} color={'#2B2B28'}/>
+            icon: <MaterialCommunityIcons name="account-edit" size={32} color={'#2B2B28'}/>,
+            onPress: () => console.log("Edit Profile!")
         },
         {
             label: "Theme",
-            icon: <Feather name="pen-tool" size={32} color={'#2B2B28'}/>
+            icon: <Feather name="pen-tool" size={32} color={'#2B2B28'}/>,
+            onPress: () => console.log("Edit Profile!")
         },
         {
             label: "Log Out",
-            icon: <MaterialIcons name="exit-to-app" size={32} color={'#2B2B28'}/>
+            icon: <MaterialIcons name="exit-to-app" size={32} color={'#2B2B28'}/>,
+            onPress: () => logout(),
         },
     ]
 
@@ -84,7 +89,7 @@ const You = () => {
 
                     <View style={styles.preferencesCont}>
                         {AppPreferences.map((item, index) => (
-                            <TouchableOpacity key={index}>
+                            <TouchableOpacity key={index} onPress={item.onPress}>
                                 <LinearGradient
                                     colors={['#A994E9', '#6BD6CF']}
                                     start={{x:0, y:0}}

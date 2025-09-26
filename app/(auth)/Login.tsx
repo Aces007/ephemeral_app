@@ -174,6 +174,8 @@ const styles = StyleSheet.create({
     inputFields: {
         fontFamily: 'Roboto_400Regular',
         opacity: 0.5,
+        color: '#F0F0F0',
+        fontWeight: '800',
     },
     formOptions: {
         display: 'flex',

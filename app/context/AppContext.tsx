@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../../firebaseConfig";
@@ -11,6 +12,7 @@ type AppContextType = {
 };
 
 const AppContext = createContext<AppContextType | null>(null);
+const router = useRouter();
 
 export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
@@ -20,6 +22,10 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
             setUser(firebaseUser);
             setLoading(false);
+
+            if (!firebaseUser) {
+                router.replace("/Login")
+            }
         });
         return unsubscribe;
     }, []);

@@ -60,6 +60,9 @@ const SignUp = () => {
                             style={styles.inputFields}
                             placeholder="Email"
                             placeholderTextColor={'#FFFFFF'}
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
                         />
                     </View>
                     <View style={styles.FormCont}>
@@ -68,6 +71,9 @@ const SignUp = () => {
                             style={styles.inputFields}
                             placeholder="Password"
                             placeholderTextColor={'#FFFFFF'}
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
                         />
                     </View>
                 </View>
@@ -188,6 +194,8 @@ const styles = StyleSheet.create({
     inputFields: {
         fontFamily: 'Roboto_400Regular',
         opacity: 0.5,
+        color: '#F0F0F0',
+        fontWeight: '800',
     },
     formOptions: {
         display: 'flex',
