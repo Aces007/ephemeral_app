@@ -1,8 +1,9 @@
 import { Roboto_400Regular, Roboto_500Medium, useFonts } from "@expo-google-fonts/roboto";
 import { Feather, Fontisto } from "@expo/vector-icons";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useAppContext } from "../context/AppContext";
 
@@ -12,23 +13,48 @@ const Login = () => {
     const { login } = useAppContext();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [savedCredentials, setSavedCredentials] = useState(false);
     const router = useRouter();
 
+    useEffect(() => {
+        const loadCredentials = async () => {
+            try {
+                const savedEmail = await AsyncStorage.getItem("savedEmail");
+                const savedPassword = await AsyncStorage.getItem("savedPassword");
+
+                if (savedEmail) {
+                    setEmail(savedEmail);
+                }
+                if (savedPassword) {
+                    setPassword(savedPassword);
+                }
+                if (savedEmail && savedPassword) {
+                    setSavedCredentials(true);
+                }
+            } catch (error: any) {
+                console.error("Failed to load saved credentials:", error);
+            }
+        };
+
+        loadCredentials();
+    }, []);
+    
     let [fontsLoaded] = useFonts({
         Roboto_400Regular,
         Roboto_500Medium,
     }); if (!fontsLoaded) {
-        return;
+        return <View><Text>Loading</Text></View>;
     }
 
     const handleLogin = async () => {
         try {
-            await login(email, password);
+            await login(email, password, savedCredentials);
             router.replace("/Journey");
         } catch (err: any) {
             Alert.alert("Login Error", err.message);
         }
     }
+
 
     return (
         <View style={styles.LoginCont}>
@@ -60,13 +86,13 @@ const Login = () => {
                     </View>
                 </View>
                 <View style={styles.formOptions}>
-                    <TouchableOpacity style={styles.formOptionsCont}> 
-                        <View style={styles.formOptionsCheck}/>
+                    <TouchableOpacity style={styles.formOptionsCont} onPress={() => setSavedCredentials(!savedCredentials)}> 
+                        <View style={[styles.formOptionsCheck, savedCredentials && { backgroundColor: '#6BD5CE'}]}/>
                         <Text style={styles.formOptionsCheckTxt}>Remember Me</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
-                        <Text style={styles.formOptionsCheckTxt}>Forgot Password</Text>
+                    <TouchableOpacity onPress={() => router.replace('/PasswordReset')}>
+                        <Text style={styles.forgotTxt}>Forgot Password?</Text>
                     </TouchableOpacity>
                 </View>
                 
@@ -174,6 +200,8 @@ const styles = StyleSheet.create({
     inputFields: {
         fontFamily: 'Roboto_400Regular',
         opacity: 0.5,
+        color: '#F0F0F0',
+        fontWeight: '800',
     },
     formOptions: {
         display: 'flex',
@@ -199,6 +227,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto_500Medium',
         fontSize: 12,
         color: '#F0F0F0',
+    },
+    forgotTxt: {
+        fontFamily: 'Roboto_500Medium',
+        fontSize: 12,
+        color: '#6BD5CE',
     },
     formBtnAlt: {
         display: 'flex',

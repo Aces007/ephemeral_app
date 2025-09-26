@@ -60,6 +60,9 @@ const SignUp = () => {
                             style={styles.inputFields}
                             placeholder="Email"
                             placeholderTextColor={'#FFFFFF'}
+                            value={email}
+                            onChangeText={setEmail}
+                            keyboardType="email-address"
                         />
                     </View>
                     <View style={styles.FormCont}>
@@ -68,18 +71,11 @@ const SignUp = () => {
                             style={styles.inputFields}
                             placeholder="Password"
                             placeholderTextColor={'#FFFFFF'}
+                            value={password}
+                            onChangeText={setPassword}
+                            secureTextEntry
                         />
                     </View>
-                </View>
-                <View style={styles.formOptions}>
-                    <TouchableOpacity style={styles.formOptionsCont}> 
-                        <View style={styles.formOptionsCheck}/>
-                        <Text style={styles.formOptionsCheckTxt}>Remember Me</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity>
-                        <Text style={styles.formOptionsCheckTxt}>Forgot Password</Text>
-                    </TouchableOpacity>
                 </View>
                 
                 <TouchableOpacity style={styles.formBtnCont} onPress={handleSignUp}>
@@ -188,31 +184,8 @@ const styles = StyleSheet.create({
     inputFields: {
         fontFamily: 'Roboto_400Regular',
         opacity: 0.5,
-    },
-    formOptions: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: 280,
-        marginBottom: 8,
-    },
-    formOptionsCont: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-    },
-    formOptionsCheck: {
-        width: 16,
-        height: 16,
-        borderWidth: 1,
-        borderRadius: 4,
-        borderColor: '#F0F0F0',
-    },
-    formOptionsCheckTxt: {
-        fontFamily: 'Roboto_500Medium',
-        fontSize: 12,
         color: '#F0F0F0',
+        fontWeight: '800',
     },
     formBtnAlt: {
         display: 'flex',
