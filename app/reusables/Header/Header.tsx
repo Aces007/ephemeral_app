@@ -1,7 +1,7 @@
 import { Roboto_400Regular, Roboto_500Medium, useFonts } from "@expo-google-fonts/roboto";
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type HeaderProps = {
     variant: "Journey" | "Space" | "You";
@@ -57,7 +57,7 @@ const Header = ({ variant, title, subtitle, onPressProfile }: HeaderProps) => {
                         </TouchableOpacity>
 
                         <TouchableOpacity style={styles.variantIconsCont}>
-                            <Image source={require('../../../assets/images/profilePic/profilePicPlaceholder.png')} style={styles.profilePlaceholder}/>
+                            <Ionicons name='person-outline' size={24}  style={styles.variantIcons} />
                         </TouchableOpacity>
                     </View>
                 </View>

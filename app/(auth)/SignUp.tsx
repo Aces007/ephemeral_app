@@ -77,16 +77,6 @@ const SignUp = () => {
                         />
                     </View>
                 </View>
-                <View style={styles.formOptions}>
-                    <TouchableOpacity style={styles.formOptionsCont}> 
-                        <View style={styles.formOptionsCheck}/>
-                        <Text style={styles.formOptionsCheckTxt}>Remember Me</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity>
-                        <Text style={styles.formOptionsCheckTxt}>Forgot Password</Text>
-                    </TouchableOpacity>
-                </View>
                 
                 <TouchableOpacity style={styles.formBtnCont} onPress={handleSignUp}>
                     <Text style={styles.formBtn}>Sign Up</Text>
@@ -196,31 +186,6 @@ const styles = StyleSheet.create({
         opacity: 0.5,
         color: '#F0F0F0',
         fontWeight: '800',
-    },
-    formOptions: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: 280,
-        marginBottom: 8,
-    },
-    formOptionsCont: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 8,
-    },
-    formOptionsCheck: {
-        width: 16,
-        height: 16,
-        borderWidth: 1,
-        borderRadius: 4,
-        borderColor: '#F0F0F0',
-    },
-    formOptionsCheckTxt: {
-        fontFamily: 'Roboto_500Medium',
-        fontSize: 12,
-        color: '#F0F0F0',
     },
     formBtnAlt: {
         display: 'flex',
