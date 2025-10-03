@@ -36,4 +36,7 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
+# Expo/EAS Secrets
+app/google-services.json
+
 app-example
