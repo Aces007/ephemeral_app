@@ -22,7 +22,7 @@ module.exports = ({ config }: { config: any }) => {
           backgroundColor: "#ffffff"
         },
         edgeToEdgeEnabled: true,
-        package: "com.aceclavano007.ephemeral"
+        package: "com.atrainx280.ephemeral"
       },
       web: {
         bundler: "metro",
