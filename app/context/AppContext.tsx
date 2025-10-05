@@ -1,9 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from "expo-router";
-import { createUserWithEmailAndPassword, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { auth } from '../../firebaseConfig';
 
+type User = {
+    id: string;
+    email?: string;
+} | null;
 
 type AppContextType = {
     user: User | null;
@@ -22,15 +24,7 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     const router = useRouter();
     
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-            setUser(firebaseUser);
-            setLoading(false);
-
-            if (!firebaseUser) {
-                router.replace("/Login")
-            }
-        });
-        return unsubscribe;
+        setLoading(false);
     }, []);
 
     const login = async (email: string, password: string, remember = false) => {
@@ -41,19 +35,28 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
             await AsyncStorage.removeItem("savedEmail");
             await AsyncStorage.removeItem("savedPassword");
         }
-        await signInWithEmailAndPassword(auth, email, password);
+        
+        setUser({ id: 'temp-id', email})
+        setLoading(false);
+        router.replace('/(tabs)/Journey')
     };
 
     const signup = async (email: string, password: string) => {
-        await createUserWithEmailAndPassword(auth, email, password);
+        setLoading(true);
+        setUser({ id: 'temp-id', email})
+        setLoading(false);
+        router.replace('/(tabs)/Journey')
     }
 
     const logout = async () => {
-        await signOut(auth);
+        setUser(null);
+        await AsyncStorage.removeItem("savedEmail");
+        await AsyncStorage.removeItem("savedPassword");
+        router.replace("/(auth)/Login");
     };
  
     const resetPassword = async (email: string) => {
-       await sendPasswordResetEmail(auth, email);
+        console.log(`Password reset requested for ${email}`);
     }
 
     return (

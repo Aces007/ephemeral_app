@@ -4,6 +4,8 @@ import { Roboto_400Regular, Roboto_500Medium, Roboto_600SemiBold } from '@expo-g
 import { router } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Animated, Easing, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useAppContext } from './context/AppContext';
+
 
 const Splash = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,6 +13,13 @@ const Splash = () => {
   const logoNameOpacity = useRef(new Animated.Value(0)).current;
   const tagLineOpacity = useRef(new Animated.Value(0)).current;
   const buttonOpacity = useRef(new Animated.Value(0)).current;
+  const { user, loading} = useAppContext();
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace("/(tabs)/Journey")
+    }
+  }, [loading, user])
 
   // Font Loading
   let [fontsLoaded] = useFonts({
@@ -68,7 +77,7 @@ const Splash = () => {
                 onPress={() => {
                   setIsLoading(true); // Initialize the loading for the Survey screen
                   setTimeout(() => {
-                    router.replace("/Surveys")
+                    router.replace("/(introduction)/Surveys")
                   }, 2000); // Wait 2 secs
                 }}
                 disabled={isLoading} // Then disable condition after.
