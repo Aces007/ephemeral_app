@@ -45,10 +45,13 @@ module.exports = ({ config }: { config: any }) => {
         typedRoutes: true
       },
       extra: {
+        ...config.extra,
         router: {},
         eas: {
           projectId: "eaacfdaa-9cf9-4384-9314-894526b69583"
-        }
+        },
+        supabaseUrl: process.env.supabaseUrl,
+        supabaseAnonKey: process.env.supabaseAnonKey,
       }
     }
   }
