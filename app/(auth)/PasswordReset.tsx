@@ -7,7 +7,7 @@ import { useAppContext } from "../context/AppContext";
 
 const PasswordReset = () => {
     const [email, setEmail] = useState("");
-    const { resetPassword } = useAppContext();
+    const { resetPassword } = useAppContext() as any;
 
     const router = useRouter();
 

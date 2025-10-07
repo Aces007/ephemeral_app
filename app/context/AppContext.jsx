@@ -3,10 +3,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-const AppContext = createContext<AppContextType | null>(null);
+const AppContext = createContext(null);
 
 export const AppProvider = ({ children }) => {
-  const [user, setUser] = useState<User>(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
@@ -18,7 +18,7 @@ export const AppProvider = ({ children }) => {
           router.replace("/(tabs)/Journey");
         } else {
           setUser(null);
-          router.replace("/(auth)/Login");
+          router.replace("/(introduction)/Surveys");
         }
         setLoading(false);
       }
