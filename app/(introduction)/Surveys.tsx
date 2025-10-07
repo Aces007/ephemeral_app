@@ -252,11 +252,11 @@ const styles = StyleSheet.create({
         gap: 40,
     },
     surveyContent: {
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
-        gap: 20,
+        gap: 24,
     },
     surveyHeaders: {
         fontFamily: 'Roboto_700Bold',
@@ -266,10 +266,9 @@ const styles = StyleSheet.create({
     },
     surveyButtons: {
         backgroundColor: '#A994E9',
-        width: '100%',
-        paddingBlock: 10,
-        paddingInline: 10,
-        borderRadius: 16,
+        width: 300,
+        paddingBlock: 8,
+        borderRadius: 8,
     },
     surveyButtonsTxt: {
         fontFamily: 'Roboto_500Medium',
@@ -293,11 +292,12 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
     surveyNameInput: {
-        backgroundColor: '#A994E9',
-        width: 300,
         textAlign: 'center',
-        borderRadius: 16,
+        width: 300,
+        height: 50,        
+        borderRadius: 8,
         fontFamily: 'Roboto_400Regular',
+        backgroundColor: '#A994E9',
         color: 'white',
         fontSize: 18,
     },
