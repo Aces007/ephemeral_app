@@ -13,6 +13,8 @@ const SignUp = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [countryCode, setCountryCode] = useState<CountryCode>('PH');
+    const [showPassword, setShowPassword] = useState(false);
+    const [focusedField, setFocusedField] = useState<string | null>(null);
     const router = useRouter();
 
     let [fontsLoaded] = useFonts({
@@ -60,6 +62,7 @@ const SignUp = () => {
                             style={styles.inputFields}
                             placeholder="Phone Number"
                             placeholderTextColor={'#FFFFFF'}
+                            keyboardType="phone-pad"
                         />
                     </View>
                     <View style={styles.FormCont}>
@@ -73,7 +76,7 @@ const SignUp = () => {
                             keyboardType="email-address"
                         />
                     </View>
-                    <View style={styles.FormCont}>
+                    <View style={styles.passwordFieldCont}>
                         <Feather name="lock" size={24} style={styles.inputSVGs}/>
                         <TextInput
                             style={styles.inputFields}
@@ -81,8 +84,15 @@ const SignUp = () => {
                             placeholderTextColor={'#FFFFFF'}
                             value={password}
                             onChangeText={setPassword}
-                            secureTextEntry
+                            secureTextEntry={!showPassword}
                         />
+                        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                            <Feather
+                                name={showPassword ? "eye-off" : "eye"}
+                                size={22}
+                                color="#F0F0F0"
+                            />
+                        </TouchableOpacity>
                     </View>
                 </View>
                 
@@ -196,6 +206,17 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         width: 280, 
     },
+    passwordFieldCont: {
+        backgroundColor: '#2E363E',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 16,
+        padding: 8,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        width: 280, 
+    },
     inputSVGs: {
         color: '#F0F0F0',
     },
@@ -207,7 +228,7 @@ const styles = StyleSheet.create({
         opacity: 0.5,
         color: '#F0F0F0',
         fontWeight: '800',
-        width: '88%',
+        width: '64%',
     },
     formBtnAlt: {
         display: 'flex',
