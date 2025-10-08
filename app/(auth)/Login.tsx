@@ -10,10 +10,11 @@ import { useAppContext } from "../context/AppContext";
 
 const Login = () => {
     const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
-    const { login } = useAppContext();
+    const { login } = useAppContext() as any;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [savedCredentials, setSavedCredentials] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -82,7 +83,15 @@ const Login = () => {
                             placeholderTextColor={'#FFFFFF'}
                             value={password}
                             onChangeText={setPassword}
+                            secureTextEntry={!showPassword}
                         />
+                        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                            <Feather
+                                name={showPassword ? "eye-off" : "eye"}
+                                size={22}
+                                color="#F0F0F0"
+                            />
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.formOptions}>
@@ -202,6 +211,7 @@ const styles = StyleSheet.create({
         opacity: 0.5,
         color: '#F0F0F0',
         fontWeight: '800',
+        width: '64%',
     },
     formOptions: {
         display: 'flex',

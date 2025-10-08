@@ -1,17 +1,20 @@
 import { Roboto_400Regular, Roboto_500Medium, useFonts } from "@expo-google-fonts/roboto";
-import { Feather, FontAwesome, Fontisto, Ionicons } from "@expo/vector-icons";
+import { Feather, FontAwesome, Fontisto } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import CountryPicker, { CountryCode } from "react-native-country-picker-modal";
 import { useAppContext } from "../context/AppContext";
-
 
 
 const SignUp = () => {
     const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
-    const { signup } = useAppContext();
+    const { signup } = useAppContext() as any;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [countryCode, setCountryCode] = useState<CountryCode>('PH');
+    const [showPassword, setShowPassword] = useState(false);
+    const [focusedField, setFocusedField] = useState<string | null>(null);
     const router = useRouter();
 
     let [fontsLoaded] = useFonts({
@@ -46,12 +49,20 @@ const SignUp = () => {
                             placeholderTextColor={'#FFFFFF'}
                         />
                     </View>
-                    <View style={styles.FormCont}>
-                        <Ionicons name="call-outline" size={24} style={styles.inputSVGs}/>
+                    <View style={styles.numberFieldCont}>
+                        <CountryPicker 
+                            countryCode={countryCode}
+                            withCallingCode
+                            withFlag
+                            onSelect={country => setCountryCode(country.cca2)}
+                            containerButtonStyle={styles.cPicker}
+                        />
+                        {/* <Ionicons name="call-outline" size={24} style={styles.inputSVGs}/> */}
                         <TextInput
                             style={styles.inputFields}
                             placeholder="Phone Number"
                             placeholderTextColor={'#FFFFFF'}
+                            keyboardType="phone-pad"
                         />
                     </View>
                     <View style={styles.FormCont}>
@@ -65,7 +76,7 @@ const SignUp = () => {
                             keyboardType="email-address"
                         />
                     </View>
-                    <View style={styles.FormCont}>
+                    <View style={styles.passwordFieldCont}>
                         <Feather name="lock" size={24} style={styles.inputSVGs}/>
                         <TextInput
                             style={styles.inputFields}
@@ -73,8 +84,15 @@ const SignUp = () => {
                             placeholderTextColor={'#FFFFFF'}
                             value={password}
                             onChangeText={setPassword}
-                            secureTextEntry
+                            secureTextEntry={!showPassword}
                         />
+                        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+                            <Feather
+                                name={showPassword ? "eye-off" : "eye"}
+                                size={22}
+                                color="#F0F0F0"
+                            />
+                        </TouchableOpacity>
                     </View>
                 </View>
                 
@@ -178,14 +196,39 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         width: 280, 
     },
+    numberFieldCont: {
+        backgroundColor: '#2E363E',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 8,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        width: 280, 
+    },
+    passwordFieldCont: {
+        backgroundColor: '#2E363E',
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 16,
+        padding: 8,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        width: 280, 
+    },
     inputSVGs: {
         color: '#F0F0F0',
+    },
+    cPicker: {
+        width: 38,
     },
     inputFields: {
         fontFamily: 'Roboto_400Regular',
         opacity: 0.5,
         color: '#F0F0F0',
         fontWeight: '800',
+        width: '64%',
     },
     formBtnAlt: {
         display: 'flex',
