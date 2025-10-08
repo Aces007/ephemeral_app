@@ -10,7 +10,7 @@ import { useAppContext } from "../context/AppContext";
 
 const Login = () => {
     const [isLoadingSignUp, setIsLoadingSignUp] = useState(false);
-    const { login } = useAppContext();
+    const { login } = useAppContext() as any;
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [savedCredentials, setSavedCredentials] = useState(false);
@@ -202,6 +202,7 @@ const styles = StyleSheet.create({
         opacity: 0.5,
         color: '#F0F0F0',
         fontWeight: '800',
+        width: '88%',
     },
     formOptions: {
         display: 'flex',
