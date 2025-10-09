@@ -11,40 +11,49 @@ export const AppProvider = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        if (session?.user) {
+    const checkAuthState = async () => {
+      try {
+        const hasSignedUp = await AsyncStorage.getItem("hasSignedUp");
+        const { data, error } = await supabase.auth.getSession();
+
+        if (error) {
+          console.warn("Error fetching session:", error.message);
+        }
+
+        const session = data?.session;
+
+        if (session?.user) { // User already logged in
           setUser({ id: session.user.id, email: session.user.email ?? undefined });
           router.replace("/(tabs)/Journey");
-        } else {
-          setUser(null);
+        } else if (!hasSignedUp) { // First-time user → go to onboarding
           router.replace("/(introduction)/Surveys");
+        } else { // Existing user but logged out
+          router.replace("/(auth)/Login");
         }
+
+        setLoading(false);
+      } catch (err) {
+        console.error("Auth state check failed:", err);
         setLoading(false);
       }
-    );
+    };
 
-    // Fetch the current session on mount
-    (async () => {
-      const { data, error } = await supabase.auth.getSession();
-      if (error) console.warn("Error fetching session:", error.message);
+    checkAuthState();
 
-      const session = data?.session;
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         setUser({ id: session.user.id, email: session.user.email ?? undefined });
+        router.replace("/(tabs)/Journey");
       } else {
-        setUser(null);
+        checkAuthState(); 
       }
-      setLoading(false);
-    })();
+    });
 
     return () => {
       listener?.subscription?.unsubscribe?.();
     };
   }, []);
 
-
-  // Login
   const login = async (email, password, remember = false) => {
     try {
       if (remember) {
@@ -69,7 +78,6 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  // Signup
   const signup = async (email, password) => {
     setLoading(true);
     try {
@@ -77,6 +85,7 @@ export const AppProvider = ({ children }) => {
       if (error) throw new Error(error.message);
 
       if (data.user) {
+        await AsyncStorage.setItem("hasSignedUp", "true"); // mark user as not first-time
         setUser({ id: data.user.id, email: data.user.email ?? undefined });
         router.replace("/(tabs)/Journey");
       }
@@ -88,20 +97,18 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  // Logout
   const logout = async () => {
     await supabase.auth.signOut();
     setUser(null);
     await AsyncStorage.multiRemove(["savedEmail", "savedPassword"]);
+    
     router.replace("/(auth)/Login");
   };
 
-  // Reset password
   const resetPassword = async (email) => {
     const { error } = await supabase.auth.resetPasswordForEmail(email);
     if (error) throw new Error(error.message);
   };
-
 
   return (
     <AppContext.Provider value={{ user, loading, login, signup, logout, resetPassword }}>
@@ -109,7 +116,6 @@ export const AppProvider = ({ children }) => {
     </AppContext.Provider>
   );
 };
-
 
 export const useAppContext = () => {
   const ctx = useContext(AppContext);
