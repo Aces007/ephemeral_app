@@ -23,17 +23,17 @@ const Login = () => {
                 const savedEmail = await AsyncStorage.getItem("savedEmail");
                 const savedPassword = await AsyncStorage.getItem("savedPassword");
 
-                if (savedEmail) {
-                    setEmail(savedEmail);
-                }
-                if (savedPassword) {
-                    setPassword(savedPassword);
-                }
                 if (savedEmail && savedPassword) {
+                    setEmail(savedEmail);
+                    setPassword(savedPassword);
                     setSavedCredentials(true);
+
+                    await login(savedEmail, savedPassword, true);
+                    router.replace("/(tabs)/Journey");
                 }
+                
             } catch (error: any) {
-                console.error("Failed to load saved credentials:", error);
+                Alert.alert("Failed to load saved credentials:", error);
             }
         };
 
