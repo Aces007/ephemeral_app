@@ -1,7 +1,8 @@
 import { supabase } from "@/lib/supabaseClient";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 
 const AppContext = createContext(null);
 
@@ -9,10 +10,15 @@ export const AppProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const isMounted = useRef(false);
 
   useEffect(() => {
+    isMounted.current = true;
+
     const checkAuthState = async () => {
       try {
+        setLoading(true);
+
         const hasSignedUp = await AsyncStorage.getItem("hasSignedUp");
         const { data, error } = await supabase.auth.getSession();
 
@@ -22,18 +28,25 @@ export const AppProvider = ({ children }) => {
 
         const session = data?.session;
 
-        if (session?.user) { // User already logged in
-          setUser({ id: session.user.id, email: session.user.email ?? undefined });
-          router.replace("/(tabs)/Journey");
-        } else if (!hasSignedUp) { // First-time user → go to onboarding
-          router.replace("/(introduction)/Surveys");
-        } else { // Existing user but logged out
-          router.replace("/(auth)/Login");
-        }
+        if(!isMounted.current) return;
 
-        setLoading(false);
+        if (session?.user) { // User is already logged in
+          setUser({ id: session.user.id, email: session.user.email ?? undefined });
+          setTimeout(() => {
+            if (isMounted.current) router.replace("/(tabs)/Journey");
+          }, 100)
+        } else if (!hasSignedUp) { // First-time user
+          setTimeout(() => {
+            if (isMounted.current) router.replace("/(introduction)/Surveys");
+          }, 100)
+        } else { // Existing user 
+          setTimeout(() => {
+            if (isMounted.current) router.replace("/(auth)/Login");
+          }, 100)
+        }
       } catch (err) {
         console.error("Auth state check failed:", err);
+      } finally {
         setLoading(false);
       }
     };
@@ -45,7 +58,7 @@ export const AppProvider = ({ children }) => {
         setUser({ id: session.user.id, email: session.user.email ?? undefined });
         router.replace("/(tabs)/Journey");
       } else {
-        checkAuthState(); 
+        setTimeout(() => checkAuthState(), 300);
       }
     });
 
@@ -53,6 +66,14 @@ export const AppProvider = ({ children }) => {
       listener?.subscription?.unsubscribe?.();
     };
   }, []);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#101B29" }}>
+        <ActivityIndicator size="large" color="#2A333D" />
+      </View>
+    )
+  };
 
   const login = async (email, password, remember = false) => {
     try {
@@ -85,7 +106,7 @@ export const AppProvider = ({ children }) => {
       if (error) throw new Error(error.message);
 
       if (data.user) {
-        await AsyncStorage.setItem("hasSignedUp", "true"); // mark user as not first-time
+        await AsyncStorage.setItem("hasSignedUp", "true"); 
         setUser({ id: data.user.id, email: data.user.email ?? undefined });
         router.replace("/(tabs)/Journey");
       }

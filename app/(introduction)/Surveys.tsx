@@ -3,7 +3,9 @@ import { Roboto_400Regular, Roboto_500Medium, Roboto_700Bold, useFonts } from '@
 import { AntDesign } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import React, { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Animated, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Animated, Image, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { supabase } from '../../lib/supabaseClient';
+import { useAppContext } from '../context/AppContext';
 
 
 const SurveyTwo = () => {
@@ -15,6 +17,8 @@ const SurveyTwo = () => {
     const [isLoadingLogin, setIsLoadingLogin] = useState(false);
     const [isLoadingExplore, setIsLoadingExplore] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [timeCommitment, setTimeCommitment] = useState("");
+    const { user } = useAppContext() as any;
 
     let [fontsLoaded] = useFonts({
         Roboto_400Regular,
@@ -43,6 +47,30 @@ const SurveyTwo = () => {
     const nextStep = () => {
         fadeAnim.setValue(0);
         setStep(step + 1);
+    }
+
+    const saveSurveyAnswers = async () => {
+        try {
+            const reasonToSave = selected === "Other" ? otherInput : selected;
+
+            const {data, error} = await supabase
+                .from("survey_answers")
+                .insert([    
+                    {   
+                        reason: reasonToSave,
+                        time_commitment: timeCommitment,
+                        name: name,
+                    },
+                ]);
+
+            if (error) throw error;
+            Alert.alert("Survey Completed", "Your responses have been saved.");    
+            return true;
+        }
+        catch (error: any) {
+            Alert.alert("Save Failed", error.message);
+            return false;
+        }
     }
 
     return (
@@ -103,11 +131,11 @@ const SurveyTwo = () => {
                     <View style={styles.surveyCont}>
                         <Text style={styles.surveyHeaders}>How much time can you commit daily?</Text>
                         <View style={styles.surveyContent}>
-                            <SurveyButton text="Less than 5 minutes" onPress={nextStep} />
-                            <SurveyButton text="5-10 minutes" onPress={nextStep} />
-                            <SurveyButton text="10-20 minutes" onPress={nextStep} />
-                            <SurveyButton text="Over 20 minutes" onPress={nextStep} />
-                            <SurveyButton text="Not sure yet" onPress={nextStep} />
+                            <SurveyButton text="Less than 5 minutes" onPress={() => { setTimeCommitment("Less than 5 minutes"); nextStep(); }}  />
+                            <SurveyButton text="5-10 minutes" onPress={() => { setTimeCommitment("5-10 minutes"); nextStep(); }} />
+                            <SurveyButton text="10-20 minutes" onPress={() => { setTimeCommitment("10-20 minutes"); nextStep(); }} />
+                            <SurveyButton text="Over 20 minutes" onPress={() => { setTimeCommitment("Over 20 minutes"); nextStep(); }} />
+                            <SurveyButton text="Not sure yet" onPress={() => { setTimeCommitment("Not sure yet"); nextStep(); }} />
                         </View>
                     </View>
                 )}
@@ -138,12 +166,18 @@ const SurveyTwo = () => {
                             </View>
 
                             <TouchableOpacity style={[styles.greetingBtnsCont, { backgroundColor: '#A994E9' }]}
-                                onPress={() => {
+                                onPress={async () => {
                                     setIsLoadingLogin(true); 
-                                    setTimeout(() => {
-                                        router.replace("/Login");
+                                    const success = await saveSurveyAnswers();
+
+                                    if (success) {
+                                        setTimeout(() => {
+                                            router.replace("/Login");
+                                            setIsLoadingLogin(false);
+                                        }, 2000);
+                                    } else {
                                         setIsLoadingLogin(false);
-                                    }, 2000)
+                                    }
                                 }}
                                 disabled={isLoadingLogin} 
                             >
@@ -156,12 +190,18 @@ const SurveyTwo = () => {
                             
                             
                             <TouchableOpacity style={[styles.greetingBtnsCont, { backgroundColor: '#6BD6CF' }]}
-                                onPress={() => {
+                                onPress={async () => {
                                     setIsLoadingExplore(true); 
-                                    setTimeout(() => {
+                                    const success = await saveSurveyAnswers();
+
+                                    if (success) {
+                                        setTimeout(() => {
                                         router.replace("/Journey");
                                         setIsLoadingExplore(false);
-                                    }, 2000); // Wait 2 secs
+                                    }, 2000); 
+                                    } else {
+                                        setIsLoadingExplore(false);
+                                    }
                                 }}
                                 disabled={isLoadingExplore} // Then disable condition after.
                             >
@@ -215,8 +255,8 @@ const styles = StyleSheet.create({
         gap: 50,
     },
     medGraphic: {
-        width: 350,
-        height: 350,
+        width: 320,
+        height: 410,
     },
     surveyTagline: {
         textAlign: 'center',
@@ -241,7 +281,7 @@ const styles = StyleSheet.create({
         gap: 30,
     },
     medGraphic2: {
-        width: 350,
+        width: 312,
         height: 350,
     },
     surveyCont: {   
